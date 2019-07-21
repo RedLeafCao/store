@@ -1,57 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="05e36cd4-268a-4983-bacc-3f3ec26b7f86" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/ShoppingApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/GoodsSearchBy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/OrderNoAutoCreate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/Config.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/Initd.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/db/DBResource.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/deprecated/BankCodeEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/deprecated/Captcha.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/helper/session/AdminSession.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/helper/session/Session.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/helper/util/ValidateCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/db/DataObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/db/Redis.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/db/mysql/LeftJoinObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/db/mysql/MysqlConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/db/mysql/MysqlDB.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/db/mysql/UpdateObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/db/mysql/WhereBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/db/mysql/WhereClause.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/file/FileUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/file/ImageFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/http/request/Request.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/http/request/UserAgent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/http/response/Abstract.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/http/response/Data.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/http/response/DataPaginate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/http/response/Response.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/http/response/ResponsePaginate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/http/ssl/X509TrustManagerUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/lib/utils/Func.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/lib/utils/Paginate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/lib/utils/Timestamp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/controller/ShoppingController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/test/java/com/can/store/shopping/ShoppingApplicationTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store.iml" afterDir="false" />
-    </list>
+    <list default="true" id="05e36cd4-268a-4983-bacc-3f3ec26b7f86" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/shopping/target/" />
@@ -196,6 +146,13 @@
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kizz/db/mysql/MysqlDB.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/OrderNoAutoCreate.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/controller/ShoppingController.java" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
       </list>
     </option>
   </component>
@@ -460,17 +417,26 @@
       <workItem from="1563519351867" duration="16517000" />
       <workItem from="1563604004437" duration="9972000" />
       <workItem from="1563622714779" duration="3401000" />
-      <workItem from="1563673923317" duration="5859000" />
+      <workItem from="1563673923317" duration="6601000" />
     </task>
+    <task id="LOCAL-00001" summary="第一次提交">
+      <created>1563681073490</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1563681073490</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43909000" />
+    <option name="totallyTimeSpent" value="44651000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="846" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4993007" visible="true" weight="0.33378017" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993007" visible="true" weight="0.33378017" />
       <window_info id="Structure" order="1" sideWeight="0.5006993" side_tool="true" weight="0.33378017" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -492,7 +458,7 @@
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32867134" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info anchor="bottom" id="Version Control" order="13" />
+      <window_info anchor="bottom" id="Version Control" order="13" weight="0.32913166" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -508,6 +474,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="第一次提交" />
+    <option name="LAST_COMMIT_MESSAGE" value="第一次提交" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/AbstractResult.java" />
