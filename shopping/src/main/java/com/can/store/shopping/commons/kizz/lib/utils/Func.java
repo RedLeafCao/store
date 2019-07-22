@@ -9,7 +9,7 @@ package com.can.store.shopping.commons.kizz.lib.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.kizz.db.DataObject;
+import com.can.store.shopping.commons.kizz.db.DataObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
