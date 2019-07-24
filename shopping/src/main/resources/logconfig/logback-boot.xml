@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="30 seconds">
+    <springProperty scope="context" name="logPath" source="log-name"/>
+    <springProperty scope="context" name="levelName" source="log-level"/>
+    <appender name="STDOUT_INFO" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%magenta(%thread)] %highlight(%-5level) %cyan(%logger) : %msg %n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="STDOUT_WARN" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%magenta(%thread)] %yellow(%-5level) %cyan(%logger) : %msg %n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="STDOUT_DEBUG" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%magenta(%thread)] %green(%-5level) %cyan(%logger) : %msg %n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="STDOUT_ERROR" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%magenta(%thread)] %red(%-5level) %cyan(%logger) : %msg %n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <appender name="FILE-OUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>log/${logPath}/error.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] [%class:%line] - %m %n</pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>log/${logPath}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 30 days -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>error</level>
+        </filter>
+    </appender>
+
+    <!--    <root level="info">
+            <appender-ref ref="STDOUT" />
+        </root>-->
+    <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
+    <!-- 注：每一次修改logback-boot，修改完后都要先clean一下再运行，不然会执行未修改时的配置 -->
+    <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
+    <!--指定logger的设置，additivity指示是否遵循缺省的继承机制 -->
+    <!--配置logger时，越靠近root的logger优先打印
+        其日志对应的logger包为：org.slf4j.*
+    -->
+    <logger name="com" additivity="false">
+        <level value="error"/>
+        <!--<appender-ref ref="STDOUT_ERROR"/>-->
+        <appender-ref ref="STDOUT_ERROR"/>
+    </logger>
+    <logger name="com" additivity="false">
+        <level value="warn"/>
+        <appender-ref ref="STDOUT_WARN"/>
+    </logger>
+    <logger name="com" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="STDOUT_INFO"/>
+    </logger>
+    <logger name="com" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT_DEBUG"/>
+    </logger>
+
+    <!-- 根logger的设置：在程序开始时的日志配置-->
+    <root>
+        <!--<level value="info"/>
+        <appender-ref ref="STDOUT_INFO"/>-->
+        <level value="${levelName}"/>
+        <appender-ref ref="STDOUT_INFO"/>
+        <appender-ref ref="FILE-OUT"/>
+        <!--<appender-ref ref="DailyRollingFileAppender"/>-->
+    </root>
+
+    <!--上线时，更换成以下配置：-->
+    <!--
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%magenta(%thread)] %highlight(%-5level) %cyan(%logger) : %msg %n
+                </pattern>
+            </encoder>
+        </appender>
+
+        <appender name="FILE-OUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>log/${logPath}/error.log</file>
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] [%class:%line] - %m %n</pattern>
+                <charset>UTF-8</charset> &lt;!&ndash; 此处设置字符集 &ndash;&gt;
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>log/${logPath}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+                &lt;!&ndash; 30 days &ndash;&gt;
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>error</level>
+            </filter>
+        </appender>
+
+        &lt;!&ndash; 根logger的设置：在程序开始时的日志配置&ndash;&gt;
+        <root>
+            &lt;!&ndash;<level value="info"/>
+            <appender-ref ref="STDOUT_INFO"/>&ndash;&gt;
+            <level value="${levelName}"/>
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE-OUT"/>
+            &lt;!&ndash;<appender-ref ref="DailyRollingFileAppender"/>&ndash;&gt;
+        </root>-->
+</configuration>

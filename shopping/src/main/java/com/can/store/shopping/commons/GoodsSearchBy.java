@@ -5,10 +5,10 @@ import com.sun.xml.internal.bind.v2.TODO;
 public enum GoodsSearchBy {
     // 应该有更多的查询方式，待列出
     // 单条件查询
-    ALL(0,null),
-    ONE(1,"id"),
-    PROVIDER(2,"provier_id"),
+    //ALL(0,""),
+    //ONE(1,"id"),
     // 双条件查询
+    PROVIDER(2,"provier_id"),
     CATEGORYID(3,"category_id"),
     CATEGORYID1(4,"category_id_1"),
     CATEGORYID2(5,"category_id_2"),

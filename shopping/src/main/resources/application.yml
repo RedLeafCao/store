@@ -1,0 +1,38 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  #  profiles:
+  #    active: test
+  datasource:
+    url: jdbc:mysql://localhost:3306/store?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&useOldAliasMetadataBehavior=true&tinyInt1isBit=false
+    username: root
+    password: canliang219
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 10MB
+  redis:
+    jedis:
+      pool:
+        max-active: 10000
+        min-idle: 0
+    host: localhost
+    password:
+    port: 6379
+
+#######################################################################################
+app_url: https://wuxiangzhongtu.com
+
+### 环境配置
+env:
+  app-env: dev
+  debug: true
+
+#配置特色（logger）日志
+logging:
+  config: classpath:logconfig/logback-boot.xml
+  file-name: ${logFileName}
+  level-name:

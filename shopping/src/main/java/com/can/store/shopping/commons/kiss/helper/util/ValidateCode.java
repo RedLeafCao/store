@@ -1,10 +1,10 @@
 package com.can.store.shopping.commons.kiss.helper.util;
 
-import com.kiss.db.DBResource;
-import com.kiss.deprecated.Captcha;
-import com.kizz.db.Redis;
-import com.kizz.http.response.Response;
-import com.kizz.lib.utils.Func;
+import com.can.store.shopping.commons.kiss.db.DBResource;
+import com.can.store.shopping.commons.kiss.deprecated.Captcha;
+import com.can.store.shopping.commons.kizz.db.Redis;
+import com.can.store.shopping.commons.kizz.http.response.Response;
+import com.can.store.shopping.commons.kizz.lib.utils.Func;
 import org.apache.commons.lang.StringUtils;
 
 /**

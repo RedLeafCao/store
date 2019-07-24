@@ -1,6 +1,6 @@
 package com.can.store.shopping.commons.kiss;
 
-import com.kiss.db.DBResource;
+import com.can.store.shopping.commons.kiss.db.DBResource;
 
 /**
  * 初始化

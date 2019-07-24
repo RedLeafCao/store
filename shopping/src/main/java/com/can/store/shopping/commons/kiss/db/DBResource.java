@@ -1,10 +1,10 @@
 package com.can.store.shopping.commons.kiss.db;
 
 import com.can.store.shopping.commons.kizz.db.mysql.MysqlDB;
-import com.kiss.Config;
-import com.kizz.db.Redis;
-import com.kizz.db.mysql.MysqlConnection;
-import com.kizz.db.mysql.MysqlDB;
+import com.can.store.shopping.commons.kiss.Config;
+import com.can.store.shopping.commons.kizz.db.Redis;
+import com.can.store.shopping.commons.kizz.db.mysql.MysqlConnection;
+import com.can.store.shopping.commons.kizz.db.mysql.MysqlDB;
 
 /**
  * @copyright 中山市五象中土科技有限公司
