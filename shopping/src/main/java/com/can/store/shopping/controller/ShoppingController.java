@@ -3,6 +3,7 @@ package com.can.store.shopping.controller;
 import com.can.store.shopping.commons.GoodsSearchBy;
 import com.can.store.shopping.commons.OrderNoAutoCreate;
 import com.can.store.shopping.commons.kiss.db.DBResource;
+import com.can.store.shopping.commons.kizz.db.DataObject;
 import com.can.store.shopping.commons.kizz.db.mysql.MysqlDB;
 import com.can.store.shopping.commons.kizz.db.mysql.WhereBuilder;
 import com.can.store.shopping.commons.kizz.db.mysql.WhereClause;
@@ -15,10 +16,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @Api(tags = "购物流程",description = "后台管理购物流程，加购物车，下单，生成订单")
@@ -113,43 +111,44 @@ public class ShoppingController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
     public Response addGoods(
-            @RequestParam(required = false) @ApiParam("购物车id") Long user_cart_id,
-            @RequestParam(required = true) @ApiParam("用户id") Long user_id,
+//            @RequestParam(required = false) @ApiParam("购物车id") Long user_cart_id,
+//            @RequestParam(required = true) @ApiParam("用户id") Long user_id,
             @RequestParam(required = true) @ApiParam("商品id") Long goods_id,
-            @RequestParam(required = true) @ApiParam("供应商id") Long provider_id,
-            @RequestParam(required = true) @ApiParam("商品名") String goods_name,
-            @RequestParam(required = true) @ApiParam("商品价格") Double goods_price
+            @RequestParam(required = false) @ApiParam("商品数量") Integer goods_num
+//            @RequestParam(required = true) @ApiParam("供应商id") Long provider_id,
+//            @RequestParam(required = true) @ApiParam("商品名") String goods_name,
+//            @RequestParam(required = true) @ApiParam("商品价格") Double goods_price
     ){
+        Long user_id = 1L; // TODO：从session中获取
         Map<String, Object> data = new HashMap<>();
 //        data.put("id",user_cart_id);
         data.put("user_id",user_id);
-        data.put("provider_id",provider_id);
-        Map<String,Object> data1 = new HashMap<>();
-//        data1.put("user_cart_id",user_cart_id);
-        data1.put("user_id",user_id);
-        data1.put("good_id",goods_id);
-        data1.put("good_price",goods_price);
-        data1.put("good_provider_id",provider_id);
-        data1.put("good_name",goods_name);
-        // 判断购物车是否存在
+        data.put("goods_id",goods_id);
+        if(null == goods_num){
+            goods_num = 1;
+        }
+        data.put("quantity",goods_num);
+        // 判断购物车内相同商品是否存在
         MysqlDB db = DBResource.get();
-        ResponsePaginate res = db.clear().select().from("user_cart").where("user_id",user_id).paginate(null,null);
-        if(res.assertNullDatalist()){
+        WhereBuilder wb = WhereBuilder.getInstance();
+        WhereBuilder wb1 = WhereBuilder.getInstance();
+        wb.whereOr("user_id",user_id);
+        wb1.whereOr("goods_id",goods_id);
+        wb.subWhere(null,wb1.buildWhere());
+        List<DataObject> existGoods = db.clear().select().from("user_cart").subWhere(null,wb.buildWhere()).get();
+        if(null == existGoods){
             // 采用插入方式
-            data.put("quantity",1);
             db.clear().insert("user_cart").data(data).save();
-            data1.put("user_cart_id",db.clear().select("id").from("user_cart")
-                    .where("user_id",user_id).paginate(null,null).data.datalist.get(0).get("id"));
-            db.clear().insert("user_cart_goods").data(data1).save();
         }else {
             // 采用更新方式
-            System.out.println("进入了");
-            int quantity = (int)res.data.datalist.get(0).get("quantity") + 1;
-            data.put("quantity",quantity);
-            db.clear().update("user_cart").data(data).where("user_id",user_id).save();
-            data1.put("user_cart_id",db.clear().select("id").from("user_cart")
-                    .where("user_id",user_id).paginate(null,null).data.datalist.get(0).get("id"));
-            db.clear().insert("user_cart_goods").data(data1).save();
+//            System.out.println("进入了");
+            int quantityInCart = existGoods.get(0).getInt("quantity")+goods_num;
+            data.replace("quantity",goods_num,quantityInCart);
+            db.clear().update("user_cart").data(data).where("id",existGoods.get(0).getString("id")).save();
+        }
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return Response.failed(501,501,"添加购物车失败");
         }
         DBResource.returnResource(db);
         return Response.success();
@@ -171,8 +170,8 @@ public class ShoppingController {
     @RequestMapping(value = "/create_order",method = RequestMethod.POST)
     @ResponseBody
     public Response createOrder(
-        @RequestParam(required = true) @ApiParam("购物车id") Long id,
-        @RequestParam(required = true) @ApiParam("订单收货地址") String address
+        @RequestParam(required = false) @ApiParam("购物车id") Long id,
+        @RequestParam(required = true) @ApiParam("订单收货地址") String address // 从数据库的地址表提取，这样不安全
     ){
         MysqlDB db = DBResource.get();
         // 查询购物车中被选择的商品
@@ -183,47 +182,115 @@ public class ShoppingController {
 //        clause1.filter = 1;
 //        list.add(clause);
 //        list.add(clause1);
-
+        Long user_id=1l; // TODO:用户id从session中获取
         WhereBuilder wb = WhereBuilder.getInstance();
         WhereBuilder wb1 = WhereBuilder.getInstance();
-        wb.where("user_cart_id",id);
-        wb1.where("is_chosen",true);
+        wb.where("user_id",user_id);
+        wb1.where("is_chosen",1);
         wb.subWhere(null,wb1.buildWhere());
-        ResponsePaginate res = db.clear().select().from("user_cart_goods").subWhere(null,wb.buildWhere()).paginate(null,null);
+        List<DataObject> goodsInCart= db.clear().select()
+                .from("user_cart")
+                .subWhere(null,wb.buildWhere())
+                .get();
+        if(null==goodsInCart){
+            DBResource.returnResource(db);
+            return Response.failed(404, 0, "购物车无商品");
+        }
 
-//        ResponsePaginate res = db.clear().select().from("user_cart_goods").where(list).paginate(null,null);
-        // 生成订单表
-        Map<String,Object> data = new HashMap<>();
+        db.beginTransaction(); // 1 事务，设置setAutoCommit(false);
+        List<DataObject> dataGoods=db.clear().select().from("goods_info")
+                .whereIn("id", Func.array_field_obj("goods_id", goodsInCart))
+                .forUpdate() // 配合1使用，数据具有互斥性时使用
+                .get();
+        if(null==dataGoods){
+            boolean queryIsFalse=db.queryIsFalse();
+            db.rollBack();
+            DBResource.returnResource(db);
+            return Response.failed(queryIsFalse?500:404, 0, "下单失败");
+        }
+
+        // 将从user_cart中取出来的goods_id 生成索引表
+        Map<String, Integer> gid7index=Func.array_record_index_obj(dataGoods, "id");
+
         long temp = OrderNoAutoCreate.CreateOrderNo().getOrderNo();
-        double totalPrice = 0;
-        data.put("order_no", temp);
-        data.put("goods_num",res.data.datalist.size());
-        data.put("address",address);
-        data.put("user_id",res.data.datalist.get(0).get("user_id"));
-        data.put("provider_id",res.data.datalist.get(0).get("good_provider_id"));
-        data.put("create_time",Func.toLong(new Date()));
+        List<Map<String, Object>> insert2orderDetail=new ArrayList<>();
+        int num=0;
+        double totalPrice = 0.0;
+        for(int i=0;i<goodsInCart.size();i++){
+            String gid_t=goodsInCart.get(i).getString("goods_id");
+            Integer index_t=gid7index.get(gid_t);
+            if(null==index_t){
+                db.rollBack();
+                DBResource.returnResource(db);
+                return Response.failed(501, 501, "exception");
+            }
+            int stockNum=dataGoods.get(index_t).getInteger("stock_num"); // 库存
+            int quantity=goodsInCart.get(i).getInteger("quantity");
+            if(quantity>stockNum){
+                db.rollBack();
+                DBResource.returnResource(db);
+                return Response.failed(200, 0, "商品库存不足");
+            }
+            num+=quantity;
 
-        List<Map<String,Object>> dataList = null;
-        int num = (int)db.clear().select().from("user_cart").where("id",id).paginate(null,null).data.datalist.get(0).get("quantity");
-        for(int i = 0; i < res.data.datalist.size(); i++){
-            Map<String,Object> data1 = new HashMap<>();
-            data1.put("order_no",temp);
-            data1.put("user_id",res.data.datalist.get(i).get("user_id"));
-            data1.put("provider_id",res.data.datalist.get(i).get("good_provider_id"));
-            data1.put("good_id",res.data.datalist.get(i).get("good_id"));
-            data1.put("good_price",res.data.datalist.get(i).get("good_price"));
-            data1.put("good_name",res.data.datalist.get(i).get("good_name"));
-            dataList.add(data1);
-            totalPrice += (double)res.data.datalist.get(i).get("good_price");
-            db.clear().delete("user_cart_goods").where("id",res.data.datalist.get(i).get("id"));
-            if(num >= 1){
-                num--;
+            Map<String, Object> od=new HashMap<>();
+            od.put("goods_id", gid_t);
+            od.put("user_id",user_id);
+            od.put("order_no",temp);
+            od.put("quantity", quantity);
+            od.put("goods_name",dataGoods.get(index_t).getString("goods_name"));
+            od.put("goods_price", dataGoods.get(index_t).getDouble("price"));
+            od.put("provider_id",dataGoods.get(index_t).getString("provider_id"));
+            insert2orderDetail.add(od);
+            totalPrice = quantity*dataGoods.get(index_t).getDouble("price");
+        }
+
+        // 订单信息
+        Map<String,Object> data = new HashMap<>();
+        data.put("order_no", temp);
+        data.put("goods_num",num);
+        data.put("total_price",totalPrice);
+        data.put("address",address);
+        data.put("user_id",user_id);
+        data.put("create_at",System.currentTimeMillis());
+
+        db.clear().insert("user_order").data(data).save();
+        if(db.queryIsFalse() || db.getLastAffectedRows()<1){
+            db.rollBack();
+            DBResource.returnResource(db);
+            return Response.failed(502, 502, "下单失败");
+        }
+
+        Long order_id=db.getLastInsertId();
+        for(int i=0;i<insert2orderDetail.size();i++){
+            insert2orderDetail.get(i).put("order_id", order_id);
+
+            db.clear().update("goods_info")
+                    .putUpdateData("stock_num", "-", Func.toInteger(insert2orderDetail.get(i).get("quantity")))
+                    .where("id", insert2orderDetail.get(i).get("goods_id"))
+                    .save();
+            if(db.queryIsFalse() || db.getLastAffectedRows()<1){
+                db.rollBack();
+                DBResource.returnResource(db);
+                return Response.failed(504, 504, "下单失败-库存更新失败");
             }
         }
-        db.clear().update("user_cart").data("quantity",num).where("id",id).save();
-        data.put("total_price",totalPrice);
-        db.clear().insert("user_order").data(data).save();
-        db.clear().insert("user_order_goods").data(dataList).save();
+        db.clear().insert("user_order_goods").data(insert2orderDetail).save();
+        if(db.queryIsFalse() || db.getLastAffectedRows()<1){
+            db.rollBack();
+            DBResource.returnResource(db);
+            return Response.failed(503, 503, "下单失败");
+        }
+
+        db.clear().delete("user_cart").whereIn("id", Func.array_field_obj("id", goodsInCart)).save();
+        if(db.queryIsFalse()){
+            db.rollBack();
+            DBResource.returnResource(db);
+            return Response.failed(505, 505, "下单失败");
+        }
+
+        db.commit();
+        DBResource.returnResource(db);
         return Response.success();
     }
 

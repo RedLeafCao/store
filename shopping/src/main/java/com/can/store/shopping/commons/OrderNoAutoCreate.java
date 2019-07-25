@@ -1,9 +1,11 @@
 package com.can.store.shopping.commons;
 
 import com.can.store.shopping.commons.kiss.db.DBResource;
+import com.can.store.shopping.commons.kizz.db.DataObject;
 import com.can.store.shopping.commons.kizz.db.mysql.MysqlDB;
 import com.can.store.shopping.commons.kizz.http.response.ResponsePaginate;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -22,13 +24,20 @@ public class OrderNoAutoCreate {
         Random random = new Random();
         long temp = random.nextLong();
         MysqlDB db = DBResource.get();
-        ResponsePaginate res = db.clear().select().from("user_order").where("order_no",temp).paginate(null,null);
         OrderNoAutoCreate o = OrderNoAutoCreate.getInstance();
-        if(res.assertNullData()){
-            o.orderNo = temp;
-        } else {
+        if(0 < temp){
+            List<DataObject> res = db.clear().select().from("user_order").where("order_no",temp).get();
+
+            if(null == res){
+                o.orderNo = temp;
+            } else {
+                OrderNoAutoCreate.CreateOrderNo();
+            }
+        }
+        else {
             OrderNoAutoCreate.CreateOrderNo();
         }
+
         return o;
     }
 
