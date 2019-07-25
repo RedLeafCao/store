@@ -3,6 +3,7 @@ package com.can.store.shopping.controller;
 import com.can.store.shopping.commons.GoodsSearchBy;
 import com.can.store.shopping.commons.OrderNoAutoCreate;
 import com.can.store.shopping.commons.kiss.db.DBResource;
+import com.can.store.shopping.commons.kiss.helper.session.UserSession;
 import com.can.store.shopping.commons.kizz.db.DataObject;
 import com.can.store.shopping.commons.kizz.db.mysql.MysqlDB;
 import com.can.store.shopping.commons.kizz.db.mysql.WhereBuilder;
@@ -119,7 +120,9 @@ public class ShoppingController {
 //            @RequestParam(required = true) @ApiParam("商品名") String goods_name,
 //            @RequestParam(required = true) @ApiParam("商品价格") Double goods_price
     ){
-        Long user_id = 1L; // TODO：从session中获取
+        Long user_id;
+        UserSession us = UserSession.getInstance();
+        user_id = us.getUserId();
         Map<String, Object> data = new HashMap<>();
 //        data.put("id",user_cart_id);
         data.put("user_id",user_id);
@@ -141,7 +144,6 @@ public class ShoppingController {
             db.clear().insert("user_cart").data(data).save();
         }else {
             // 采用更新方式
-//            System.out.println("进入了");
             int quantityInCart = existGoods.get(0).getInt("quantity")+goods_num;
             data.replace("quantity",goods_num,quantityInCart);
             db.clear().update("user_cart").data(data).where("id",existGoods.get(0).getString("id")).save();
@@ -158,10 +160,21 @@ public class ShoppingController {
     @RequestMapping(value = "/choose_goods",method = RequestMethod.POST)
     @ResponseBody
     public Response chooseGoods(
-            @RequestParam(required = true) @ApiParam("购车内商品id") Long id
+            @RequestParam(required = true) @ApiParam("购车内商品goods_id") Long id
     ){
+        UserSession us = UserSession.getInstance();
+        Long user_id = us.getUserId();
+        WhereBuilder wb = WhereBuilder.getInstance();
+        WhereBuilder wb1 = WhereBuilder.getInstance();
+        wb.whereOr("user_id",user_id);
+        wb1.whereOr("goods_id",id);
+        wb.subWhere(null,wb1.buildWhere());
         MysqlDB db = DBResource.get();
-        db.clear().update("user_cart_goods").data("is_chosen",1).where("id",id).save();
+        db.clear().update("user_cart").data("is_chosen",1).subWhere(null,wb.buildWhere()).save();
+        if(db.getLastAffectedRows()<1){
+            DBResource.returnResource(db);
+            return Response.failed(501,501,"商品选择失败");
+        }
         DBResource.returnResource(db);
         return Response.success();
     }
@@ -182,7 +195,9 @@ public class ShoppingController {
 //        clause1.filter = 1;
 //        list.add(clause);
 //        list.add(clause1);
-        Long user_id=1l; // TODO:用户id从session中获取
+        Long user_id;
+        UserSession us = UserSession.getInstance();
+        user_id = us.getUserId();
         WhereBuilder wb = WhereBuilder.getInstance();
         WhereBuilder wb1 = WhereBuilder.getInstance();
         wb.where("user_id",user_id);

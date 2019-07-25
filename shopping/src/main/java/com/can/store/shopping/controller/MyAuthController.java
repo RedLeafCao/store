@@ -35,15 +35,18 @@ public class MyAuthController {
       // 判断当前用户是否存在
       MysqlDB db = DBResource.get();
       String[] fields = {"user_id","password"};
-      List<DataObject> userInfo = db.clear().fields(fields).from("user_info").where("user_id",user_id).get();
+      List<DataObject> userInfo = db.clear().fields(fields).from("users_info").where("user_id",user_id).get();
       if(null == userInfo){
           DBResource.returnResource(db);
           return Response.failed(602,602,"不存在该用户或用户账号错误");
       }
+      // TODO:密码是否加密，需解码。
       if(!(userInfo.get(0).getLong("user_id").equals(user_id) && userInfo.get(0).getString("password").equals(password))){
           DBResource.returnResource(db);
           return Response.failed(603,603,"用户密码错误");
       }
-        Session session =
+      Session.setSessionClass("UserSession");
+      Session.set("user_id",user_id);
+      return Response.success();
     }
 }
