@@ -1,5 +1,6 @@
 package com.can.store.shopping.controller;
 
+import com.can.store.shopping.commons.ValidatorAutoCreate;
 import com.can.store.shopping.commons.kiss.db.DBResource;
 import com.can.store.shopping.commons.kiss.helper.session.AdminSession;
 import com.can.store.shopping.commons.kiss.helper.session.Session;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Api(tags = "用户管理",description = "用户登录注册，退出，修改信息等操作")
@@ -48,5 +52,29 @@ public class MyAuthController {
       Session.setSessionClass("UserSession");
       Session.set("user_id",user_id);
       return Response.success();
+    }
+
+    @ApiOperation("验证码生成")
+    @RequestMapping("/validate")
+    @ResponseBody
+    public Response registe_validate(
+    ){
+        try {
+            ValidatorAutoCreate validCode = ValidatorAutoCreate.getInstance();
+            Session.setSessionClass("UserSession");
+            if(null == validCode.getCode()){
+                return Response.failed(601,601,"获取验证码失败");
+            }
+            Session.set("validator_code",validCode.getCode());
+            if(null == validCode.getCodeUrl()){
+                return Response.failed(602,602,"获取验证码失败");
+            }
+            Map<String,Object> url = new HashMap<>();
+            url.put("validator_code_url",validCode.getCodeUrl());
+            return Response.success(url);
+        } catch (IOException e){
+            e.printStackTrace();
+            return Response.failed(604,604,"获取验证码失败");
+       }
     }
 }
