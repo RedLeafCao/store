@@ -1,10 +1,14 @@
 package com.can.store.shopping.commons;
 
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,9 +22,10 @@ public class ValidatorAutoCreate {
     private int width = 160;
     private int height = 40;
     private int codeCount = 5;
-    private int lineCount = 10;
+    private int lineCount = 20;
     private String code = null;
     private String codeUrl = null;
+    private String realLocation = null;
 
     private char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J',
             'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
@@ -36,7 +41,7 @@ public class ValidatorAutoCreate {
     }
 
     private void createCodeImage(){
-        int x_code = this.width/(this.codeCount+2); // code 的x轴位置
+        int x_code = this.width/(this.codeCount+1); // code 的x轴位置
         int fontHeight = this.height-2; // 字符的高度
         int y_code = this.height-4;
         int red,green,blue = 0; // 三原色
@@ -75,9 +80,21 @@ public class ValidatorAutoCreate {
     }
 
     public void write()throws IOException{
-        OutputStream outputStream = new FileOutputStream(ResourceUtils.getURL("classpath:/ValidatorCode").getPath()+"/"+code+".png");
+        String path = "D:/Data/store/validatorCode/";
+        File file = new File(path);
+        if(!file.exists()){
+            file.mkdir();
+        }
+        int codeHash = code.hashCode();
+        OutputStream outputStream = new FileOutputStream(path+codeHash+".png");
+        realLocation = path+codeHash+".png";
+        if (null == bufferedImage){
+            createCodeImage();
+        }
         ImageIO.write(bufferedImage,"png",outputStream);
-        StringBuffer sb = new StringBuffer(ResourceUtils.getURL("classpath:/ValidatorCode").getPath()+"/"+code+".png");
+        outputStream.flush();
+        outputStream.close();
+        StringBuffer sb = new StringBuffer("http://localhost:8080/v1/validate/"+codeHash+".png");
         codeUrl = sb.toString();
     }
 
@@ -91,5 +108,9 @@ public class ValidatorAutoCreate {
 
     public String getCodeUrl(){
         return this.codeUrl;
+    }
+
+    public String getRealLocation(){
+        return this.realLocation;
     }
 }

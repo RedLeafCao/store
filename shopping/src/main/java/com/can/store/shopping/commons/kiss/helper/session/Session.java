@@ -91,4 +91,10 @@ public class Session {
         HttpSession session = request.getSession();
         session.setAttribute(key, value);
     }
+
+    public static String getSessionID(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        return session.getId();
+    }
 }
