@@ -1,5 +1,6 @@
 package com.can.store.shopping.controller;
 
+import com.can.store.shopping.commons.MyMD5Units;
 import com.can.store.shopping.commons.UserIDDistribute;
 import com.can.store.shopping.commons.ValidatorAutoCreate;
 import com.can.store.shopping.commons.kiss.db.DBResource;
@@ -36,7 +37,7 @@ public class MyAuthController {
     public Response login(
             @RequestParam(required = true) @ApiParam("验证码") String validator,
             @RequestParam(required = true) @ApiParam("用户id") Long user_id,
-            @RequestParam(required = true) @ApiParam("用户密码") String password // 经过加密?
+            @RequestParam(required = true) @ApiParam("用户密码") String password
     ){
         MysqlDB db = DBResource.get();
         if(null == validator){
@@ -64,14 +65,14 @@ public class MyAuthController {
           return Response.failed(601,601,"用户账号密码不能为空");
       }
       // 判断当前用户是否存在
+        MyMD5Units md5 = MyMD5Units.getInstance(password);
       String[] fields = {"user_id","password"};
       List<DataObject> userInfo = db.clear().fields(fields).from("users_info").where("user_id",user_id).get();
       if(null == userInfo){
           DBResource.returnResource(db);
           return Response.failed(602,602,"不存在该用户或用户账号错误");
       }
-      // TODO:密码是否加密，需解码。
-      if(!(userInfo.get(0).getLong("user_id").equals(user_id) && userInfo.get(0).getString("password").equals(password))){
+      if(!(userInfo.get(0).getLong("user_id").equals(user_id) && userInfo.get(0).getString("password").equals(md5.getMd5Code()))){
           DBResource.returnResource(db);
           return Response.failed(603,603,"用户密码错误");
       }
@@ -151,9 +152,11 @@ public class MyAuthController {
         // 生成唯一的user_id
         UserIDDistribute udd = UserIDDistribute.getInstance();
         long uid = udd.getUser_id();
+        // 密码进行MD5加密
+        MyMD5Units md5 = MyMD5Units.getInstance(password);
         Map<String,Object> user = new HashMap<>();
         user.put("user_id",uid);
-        user.put("password",password);
+        user.put("password",md5.getMd5Code());
         user.put("phone",phone);
         db.clear().insert("users_info").data(user).save();
         if(db.queryIsFalse()){

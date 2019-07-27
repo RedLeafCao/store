@@ -20,7 +20,7 @@ public class UserIDDistribute {
         if(time<0L){
             time = -time;
         }
-        if(time/(LIMIT/10) < 0)
+        if(time/(LIMIT/10) < 1)
         {
             time = time*10;
         }
