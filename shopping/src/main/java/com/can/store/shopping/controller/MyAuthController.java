@@ -6,15 +6,18 @@ import com.can.store.shopping.commons.ValidatorAutoCreate;
 import com.can.store.shopping.commons.kiss.db.DBResource;
 import com.can.store.shopping.commons.kiss.helper.session.AdminSession;
 import com.can.store.shopping.commons.kiss.helper.session.Session;
+import com.can.store.shopping.commons.kiss.helper.session.UserSession;
 import com.can.store.shopping.commons.kizz.db.DataObject;
 import com.can.store.shopping.commons.kizz.db.mysql.MysqlDB;
 import com.can.store.shopping.commons.kizz.db.mysql.WhereBuilder;
 import com.can.store.shopping.commons.kizz.http.response.Response;
+import com.can.store.shopping.commons.kizz.http.response.ResponsePaginate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sun.security.pkcs11.Secmod;
@@ -32,7 +35,7 @@ import java.util.Map;
 public class MyAuthController {
 
     @ApiOperation("登录")
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
     public Response login(
             @RequestParam(required = true) @ApiParam("验证码") String validator,
@@ -83,7 +86,7 @@ public class MyAuthController {
     }
 
     @ApiOperation("验证码生成")
-    @RequestMapping("/validate")
+    @RequestMapping(value = "/validate",method = RequestMethod.POST)
     @ResponseBody
     public Response registe_validate(
     ){
@@ -117,7 +120,7 @@ public class MyAuthController {
     }
 
     @ApiOperation("注册")
-    @RequestMapping("/registe")
+    @RequestMapping(value = "/registe",method = RequestMethod.POST)
     @ResponseBody
     public Response registe(
             @RequestParam(required = true) @ApiParam("验证码") String validator,
@@ -170,6 +173,92 @@ public class MyAuthController {
             }
             DBResource.returnResource(db);
             return Response.success();
+        }
+        DBResource.returnResource(db);
+        return Response.success();
+    }
+
+    @ApiOperation("获取用户详细信息")
+    @RequestMapping(value = "/get_info",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponsePaginate getInfo(){
+        MysqlDB db = DBResource.get();
+        UserSession us = UserSession.getInstance();
+        Long user_id = us.getUserId();
+        String[] fields = {"user_id","nick_name","phone","icon","gender","birthday"};
+        ResponsePaginate res = db.clear().fields(fields).from("users_info").where("user_id",user_id).paginate(null,null);
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return ResponsePaginate.failed(601,601,"获取用户基本信息失败");
+        }
+        DBResource.returnResource(db);
+        return res;
+    }
+
+    @ApiOperation("修改用户密码")
+    @RequestMapping(value = "/alter-password",method = RequestMethod.POST)
+    @ResponseBody
+    public Response alterPassword(
+            @RequestParam(required = true) @ApiParam("原密码") String originPassword,
+            @RequestParam(required = true) @ApiParam("新密码") String newPassword,
+            @RequestParam(required = true) @ApiParam("新密码确认") String newPasswords
+    ){
+        MysqlDB db = DBResource.get();
+        String[] fields = {"user_id","password"};
+        UserSession us = UserSession.getInstance();
+        Long user_id = us.getUserId();
+        MyMD5Units md5 = MyMD5Units.getInstance(originPassword);
+        WhereBuilder wb = WhereBuilder.getInstance();
+        WhereBuilder wb1 = WhereBuilder.getInstance();
+        wb.whereOr("user_id",user_id);
+        wb1.whereOr("password",md5.getMd5Code());
+        wb.subWhere(null,wb1.buildWhere());
+        List<DataObject> userInfo = db.clear().fields(fields).from("users_info").subWhere(null,wb.buildWhere()).get();
+        if(userInfo.size() < 1){
+            DBResource.returnResource(db);
+            return Response.failed(601,601,"原密码错误");
+        }
+        if(!newPassword.equals(newPasswords)){
+            DBResource.returnResource(db);
+            return Response.failed(602,602,"新密码两次不一致");
+        }
+        MyMD5Units md5s = MyMD5Units.getInstance(newPassword);
+        db.clear().update("users_info").data("password",md5s.getMd5Code()).where("user_id",user_id).save();
+        if(db.getLastAffectedRows()<1){
+            DBResource.returnResource(db);
+            return Response.failed(603,603,"服务异常");
+        }
+        return Response.success();
+    }
+
+    @ApiOperation("修改用户基本信息")
+    @RequestMapping("/alter_info")
+    @ResponseBody
+    public Response alterInfo(
+            @RequestParam(required = false) @ApiParam("昵称") String nick_name,
+            @RequestParam(required = false) @ApiParam("头像") String icon,
+            @RequestParam(required = false) @ApiParam("手机号") String phone,
+            @RequestParam(required = false) @ApiParam("性别") Integer gender,
+            @RequestParam(required = false) @ApiParam("生日") Integer birthday
+    ){
+        if(nick_name == null && icon == null && phone == null && gender == null && birthday == null){
+            return Response.failed(601,601,"无修改项，修改无效");
+        }
+        UserSession us = UserSession.getInstance();
+        Long user_id = us.getUserId();
+        MysqlDB db = DBResource.get();
+        String fields[] = {"user_id","nick_name","icon","phone","gender","birthday"};
+        List<DataObject> origin = db.clear().fields(fields).from("users_info").where("user_id",user_id).get();
+        Map<String,Object> user_info = new HashMap<>();
+        user_info.put("nick_name",nick_name);
+        user_info.put("icon",icon);
+        user_info.put("phone",null == phone?origin.get(0).getLong("phone"):phone);
+        user_info.put("gender",null == gender?origin.get(0).getInteger("gender"):gender);
+        user_info.put("birthday",null == birthday?origin.get(0).getLong("birthday"):birthday);
+        db.clear().update("users_info").data(user_info).where("user_id",user_id).save();
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return Response.failed(602,602,"服务异常，无法修改");
         }
         DBResource.returnResource(db);
         return Response.success();
