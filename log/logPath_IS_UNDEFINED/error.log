@@ -1,6 +1,6 @@
-2019-07-29 11:40:01 [ERROR] [org.apache.juli.logging.DirectJDKLog:175] - Servlet.service() for servlet [dispatcherServlet] in context with path [/v1] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause 
+2019-08-02 11:00:04 [ERROR] [org.apache.juli.logging.DirectJDKLog:175] - Servlet.service() for servlet [dispatcherServlet] in context with path [/v1] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause 
 java.lang.NullPointerException: null
-	at com.can.store.shopping.controller.MyAuthController.login(MyAuthController.java:57)
+	at com.can.store.shopping.controller.MyAuthController.login(MyAuthController.java:56)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

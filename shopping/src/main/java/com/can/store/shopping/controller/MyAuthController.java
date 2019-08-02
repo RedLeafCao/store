@@ -12,14 +12,13 @@ import com.can.store.shopping.commons.kizz.db.mysql.MysqlDB;
 import com.can.store.shopping.commons.kizz.db.mysql.WhereBuilder;
 import com.can.store.shopping.commons.kizz.http.response.Response;
 import com.can.store.shopping.commons.kizz.http.response.ResponsePaginate;
+import com.can.store.shopping.dto.UserAdmin;
+import com.can.store.shopping.dto.UserInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import sun.security.pkcs11.Secmod;
 
 import java.io.File;
@@ -79,6 +78,7 @@ public class MyAuthController {
           DBResource.returnResource(db);
           return Response.failed(603,603,"用户密码错误");
       }
+      db.clear().update("users_info").data("last_time",System.currentTimeMillis()).where("user_id",user_id).save();
       Session.setSessionClass("UserSession");
       Session.set("user_id",user_id);
       DBResource.returnResource(db);
@@ -123,9 +123,8 @@ public class MyAuthController {
     @RequestMapping(value = "/registe",method = RequestMethod.POST)
     @ResponseBody
     public Response registe(
+            @RequestBody UserAdmin userAdmin,
             @RequestParam(required = true) @ApiParam("验证码") String validator,
-            @RequestParam(required = true) @ApiParam("用户手机号") Long phone,
-            @RequestParam(required = true) @ApiParam("用户密码") String password,
             @RequestParam(required = true) @ApiParam("确认密码") String check_password
     ){
         MysqlDB db = DBResource.get();
@@ -148,7 +147,7 @@ public class MyAuthController {
         File del = new File(code.get(0).getString("real_location"));
         del.delete();
         db.clear().delete("validator").subWhere(null,wb.buildWhere()).save();
-        if(!password.equals(check_password)){
+        if(!userAdmin.getPassword().equals(check_password)){
             DBResource.returnResource(db);
             return Response.failed(607,607,"两次密码不一致");
         }
@@ -156,11 +155,11 @@ public class MyAuthController {
         UserIDDistribute udd = UserIDDistribute.getInstance();
         long uid = udd.getUser_id();
         // 密码进行MD5加密
-        MyMD5Units md5 = MyMD5Units.getInstance(password);
+        MyMD5Units md5 = MyMD5Units.getInstance(userAdmin.getPassword());
         Map<String,Object> user = new HashMap<>();
         user.put("user_id",uid);
         user.put("password",md5.getMd5Code());
-        user.put("phone",phone);
+        user.put("create_time",System.currentTimeMillis());
         db.clear().insert("users_info").data(user).save();
         if(db.queryIsFalse()){
             UserIDDistribute udd1 = UserIDDistribute.getInstance();
@@ -185,7 +184,7 @@ public class MyAuthController {
         MysqlDB db = DBResource.get();
         UserSession us = UserSession.getInstance();
         Long user_id = us.getUserId();
-        String[] fields = {"user_id","nick_name","phone","icon","gender","birthday"};
+        String[] fields = {"user_id","nick_name","phone","icon","gender","birthday","create_time","last_time"};
         ResponsePaginate res = db.clear().fields(fields).from("users_info").where("user_id",user_id).paginate(null,null);
         if(db.queryIsFalse()){
             DBResource.returnResource(db);
@@ -235,13 +234,15 @@ public class MyAuthController {
     @RequestMapping("/alter_info")
     @ResponseBody
     public Response alterInfo(
-            @RequestParam(required = false) @ApiParam("昵称") String nick_name,
-            @RequestParam(required = false) @ApiParam("头像") String icon,
-            @RequestParam(required = false) @ApiParam("手机号") String phone,
-            @RequestParam(required = false) @ApiParam("性别") Integer gender,
-            @RequestParam(required = false) @ApiParam("生日") Integer birthday
+            @RequestBody UserInfo userInfo
+//            @RequestParam(required = false) @ApiParam("昵称") String nick_name,
+//            @RequestParam(required = false) @ApiParam("头像") String icon,
+//            @RequestParam(required = false) @ApiParam("手机号") String phone,
+//            @RequestParam(required = false) @ApiParam("性别") Integer gender,
+//            @RequestParam(required = false) @ApiParam("生日") Integer birthday
     ){
-        if(nick_name == null && icon == null && phone == null && gender == null && birthday == null){
+        if(userInfo.getNickName() == null && userInfo.getIcon() == null && userInfo.getPhone() == null
+                && userInfo.getGender() == null && userInfo.getBirthday() == null){
             return Response.failed(601,601,"无修改项，修改无效");
         }
         UserSession us = UserSession.getInstance();
@@ -250,11 +251,11 @@ public class MyAuthController {
         String fields[] = {"user_id","nick_name","icon","phone","gender","birthday"};
         List<DataObject> origin = db.clear().fields(fields).from("users_info").where("user_id",user_id).get();
         Map<String,Object> user_info = new HashMap<>();
-        user_info.put("nick_name",nick_name);
-        user_info.put("icon",icon);
-        user_info.put("phone",null == phone?origin.get(0).getLong("phone"):phone);
-        user_info.put("gender",null == gender?origin.get(0).getInteger("gender"):gender);
-        user_info.put("birthday",null == birthday?origin.get(0).getLong("birthday"):birthday);
+        user_info.put("nick_name",userInfo.getNickName());
+        user_info.put("icon",userInfo.getIcon());
+        user_info.put("phone",null == userInfo.getPhone()?origin.get(0).getLong("phone"):userInfo.getPhone());
+        user_info.put("gender",null == userInfo.getGender()?origin.get(0).getInteger("gender"):userInfo.getGender());
+        user_info.put("birthday",null == userInfo.getBirthday()?origin.get(0).getLong("birthday"):userInfo.getBirthday());
         db.clear().update("users_info").data(user_info).where("user_id",user_id).save();
         if(db.queryIsFalse()){
             DBResource.returnResource(db);
