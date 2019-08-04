@@ -184,6 +184,9 @@ public class MyAuthController {
         MysqlDB db = DBResource.get();
         UserSession us = UserSession.getInstance();
         Long user_id = us.getUserId();
+        if(0L == user_id){
+            return ResponsePaginate.failed(602,602,"当前用户已退出，请重新登录");
+        }
         String[] fields = {"user_id","nick_name","phone","icon","gender","birthday","create_time","last_time"};
         ResponsePaginate res = db.clear().fields(fields).from("users_info").where("user_id",user_id).paginate(null,null);
         if(db.queryIsFalse()){
@@ -206,6 +209,9 @@ public class MyAuthController {
         String[] fields = {"user_id","password"};
         UserSession us = UserSession.getInstance();
         Long user_id = us.getUserId();
+        if(0L == user_id){
+            return Response.failed(604,604,"当前用户已退出，请重新登录");
+        }
         MyMD5Units md5 = MyMD5Units.getInstance(originPassword);
         WhereBuilder wb = WhereBuilder.getInstance();
         WhereBuilder wb1 = WhereBuilder.getInstance();
@@ -247,6 +253,9 @@ public class MyAuthController {
         }
         UserSession us = UserSession.getInstance();
         Long user_id = us.getUserId();
+        if(0L == user_id){
+            return Response.failed(603,603,"当前用户已退出，请重新登录");
+        }
         MysqlDB db = DBResource.get();
         String fields[] = {"user_id","nick_name","icon","phone","gender","birthday"};
         List<DataObject> origin = db.clear().fields(fields).from("users_info").where("user_id",user_id).get();
@@ -262,6 +271,14 @@ public class MyAuthController {
             return Response.failed(602,602,"服务异常，无法修改");
         }
         DBResource.returnResource(db);
+        return Response.success();
+    }
+
+    @ApiOperation("退出登录")
+    @RequestMapping(value = "/logout",method = RequestMethod.POST)
+    @ResponseBody
+    public Response logout(){
+        Session.set("user_id",0l);
         return Response.success();
     }
 }

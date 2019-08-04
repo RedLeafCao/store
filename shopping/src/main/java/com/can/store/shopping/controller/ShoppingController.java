@@ -1,6 +1,7 @@
 package com.can.store.shopping.controller;
 
 import com.can.store.shopping.commons.GoodsSearchBy;
+import com.can.store.shopping.commons.MyMD5Units;
 import com.can.store.shopping.commons.OrderNoAutoCreate;
 import com.can.store.shopping.commons.kiss.db.DBResource;
 import com.can.store.shopping.commons.kiss.helper.session.UserSession;
@@ -8,6 +9,7 @@ import com.can.store.shopping.commons.kizz.db.DataObject;
 import com.can.store.shopping.commons.kizz.db.mysql.MysqlDB;
 import com.can.store.shopping.commons.kizz.db.mysql.WhereBuilder;
 import com.can.store.shopping.commons.kizz.db.mysql.WhereClause;
+import com.can.store.shopping.commons.kizz.http.response.Data;
 import com.can.store.shopping.commons.kizz.http.response.Response;
 import com.can.store.shopping.commons.kizz.http.response.ResponsePaginate;
 import com.can.store.shopping.commons.kizz.lib.utils.Func;
@@ -184,7 +186,7 @@ public class ShoppingController {
     @ResponseBody
     public Response createOrder(
         @RequestParam(required = false) @ApiParam("购物车id") Long id,
-        @RequestParam(required = true) @ApiParam("订单收货地址") String address // 从数据库的地址表提取，这样不安全
+        @RequestParam(required = true) @ApiParam("订单收货地址") String address // 应从数据库的地址表提取，这样不安全
     ){
         MysqlDB db = DBResource.get();
         // 查询购物车中被选择的商品
@@ -313,9 +315,11 @@ public class ShoppingController {
     @RequestMapping(value = "/get_order",method = RequestMethod.POST)
     @ResponseBody
     public ResponsePaginate getOrder(
-            @RequestParam(required = true) @ApiParam("订单编号") Long order_no,
-            @RequestParam(required = false) @ApiParam("订单所有者") Long user_id
+            @RequestParam(required = true) @ApiParam("订单编号") Long order_no
     ){
+        Long user_id;
+        UserSession us = UserSession.getInstance();
+        user_id = us.getUserId();
         MysqlDB db = DBResource.get();
         WhereBuilder wb = WhereBuilder.getInstance();
         WhereBuilder wb1 = WhereBuilder.getInstance();
@@ -328,71 +332,121 @@ public class ShoppingController {
         return res;
     }
 
+    @ApiOperation("获取所有订单")
+    @RequestMapping(value = "/list_all",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponsePaginate list(){
+        MysqlDB db = DBResource.get();
+        UserSession us = UserSession.getInstance();
+        Long user_id = us.getUserId();
+        ResponsePaginate res =  db.clear().select().from("user_order").where("user_id",user_id).paginate(null,null);
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return ResponsePaginate.failed(601,601,"没有订单");
+        }
+        DBResource.returnResource(db);
+        return res;
+    }
+
+    // TODO:设置定时任务，用于删除超时订单
     @ApiOperation("订单支付")
     @RequestMapping(value = "/pay",method = RequestMethod.POST)
     @ResponseBody
     public Response pay(
             @RequestParam(required = true) @ApiParam("订单编号") Long orderNo
     ){
+        UserSession us = UserSession.getInstance();
+        Long user_id = us.getUserId();
+        MysqlDB db = DBResource.get();
+        String fields[] = {"user_id","order_no","status","create_at"};
+        List<DataObject> order = db.clear().select().from("user_order").where("order_no",orderNo).get();
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return Response.failed(601,601,"当前订单不存在,或超时取消" );
+        }
+        if(user_id != order.get(0).getLong("user_id")){
+            DBResource.returnResource(db);
+            return Response.failed(602,602,"用户不一致");
+        }
+        if(0 != order.get(0).getInteger("status")){
+            DBResource.returnResource(db);
+            return Response.failed(603,603,"订单异常");
+        }
+        if(System.currentTimeMillis()-order.get(0).getLong("create_at") > 1800000){
+            db.clear().update("user_order").data("status",4).where("order_no",orderNo).save();
+            DBResource.returnResource(db);
+            return Response.failed(604,604,"支付时间超过30分钟,订单自动取消");
+        }
         // TODO: 调用支付宝或者微信进行支付,要判断是否支付成功，不成功就返回
 
         // 修改订单信息
-        MysqlDB db = DBResource.get();
         Map<String,Object> data = new HashMap<>();
         data.put("status",1);
-        data.put("update_at",Func.toLong(new Date()));
+        data.put("update_at",System.currentTimeMillis());
         db.clear().update("user_order").data(data).where("order_no",orderNo).save();
         return Response.success();
     }
 
-    @ApiOperation("订单发货")
-    @RequestMapping(value = "/send",method = RequestMethod.POST)
-    @ResponseBody
-    public Response send(
-            @RequestParam(required = true) @ApiParam("订单编号") Long orderNo
-    ){
-        // TODO: 通知发货
-        MysqlDB db = DBResource.get();
-        Map<String,Object> data = new HashMap<>();
-        data.put("status",2);
-        data.put("update_at",Func.toLong(new Date()));
-        db.clear().update("user_order").data(data).where("order_no",orderNo).save();
-        return Response.success();
-    }
-
-    @ApiOperation("订单签收")
-    @RequestMapping(value = "/receipt",method = RequestMethod.POST)
-    @ResponseBody
-    public Response recepit(
-            @RequestParam(required = true) @ApiParam("订单编号") Long orderNo,
-            @RequestParam(required = true) @ApiParam("确认签收_快递端") boolean status
-    ){
-        if(!status){
-            return Response.failed(300,300,"快递未确认签收");
-        }
-        MysqlDB db = DBResource.get();
-        Map<String,Object> data = new HashMap<>();
-        data.put("status",3);
-        data.put("update_at",Func.toLong(new Date()));
-        db.clear().update("user_order").data(data).where("order_no",orderNo).save();
-        return Response.success();
-    }
-
+    // TODO:设置定时任务用于处理超时的已完成订单
     @ApiOperation("订单完成")
     @RequestMapping(value = "/finish",method = RequestMethod.POST)
     @ResponseBody
     public Response finish(
             @RequestParam(required = true) @ApiParam("订单编号") Long orderNo,
-            @RequestParam(required = true) @ApiParam("确认签收_客户端") boolean status
+            @RequestParam(required = true) @ApiParam("确认签收") boolean status
     ){
-        if(!status){
-            return Response.failed(300,300,"用户未确认收货");
-        }
         MysqlDB db = DBResource.get();
+        List<DataObject> order = db.clear().select().from("user_order").where("order_no",orderNo).get();
+        UserSession us = UserSession.getInstance();
+        Long user_id = us.getUserId();
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return Response.failed(601,601,"当前订单不存在");
+        }
+        if(user_id != order.get(0).getLong("user_id")){
+            DBResource.returnResource(db);
+            return Response.failed(602,602,"用户不一致");
+        }
+        if(!status){
+            DBResource.returnResource(db);
+            return Response.failed(603,603,"用户未确认收货");
+        }
+        if(2 != order.get(0).getInteger("status")){
+            DBResource.returnResource(db);
+            return Response.failed(604,604,"订单异常");
+        }
         Map<String,Object> data = new HashMap<>();
-        data.put("status",4);
+        data.put("status",3);
         data.put("update_at",Func.toLong(new Date()));
         db.clear().update("user_order").data(data).where("order_no",orderNo).save();
+        DBResource.returnResource(db);
+        return Response.success();
+    }
+
+    @ApiOperation("退货申请")
+    @RequestMapping(value = "/return",method = RequestMethod.POST)
+    @ResponseBody
+    public Response orderReturn(
+            @RequestParam(required = true) @ApiParam("订单编号") Long orderNo
+    ){
+        MysqlDB db = DBResource.get();
+        UserSession us = UserSession.getInstance();
+        Long user_id = us.getUserId();
+        List<DataObject> order = db.clear().select().from("user_order").where("order_no",orderNo).get();
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return Response.failed(601,601,"无此订单");
+        }
+        if(user_id != order.get(0).getLong("user_id")){
+            DBResource.returnResource(db);
+            return Response.failed(602,602,"用户不一致");
+        }
+        db.clear().update("user_order").data("return_status",1).where("order_no",orderNo).save();
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return Response.failed(301,301,"退货申请失败");
+        }
+        DBResource.returnResource(db);
         return Response.success();
     }
 }
