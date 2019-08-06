@@ -1,5 +1,6 @@
 package com.can.store.shopping.controller;
 
+import com.can.store.shopping.commons.ChangeOrderStatus;
 import com.can.store.shopping.commons.GoodsSearchBy;
 import com.can.store.shopping.commons.MyMD5Units;
 import com.can.store.shopping.commons.OrderNoAutoCreate;
@@ -349,45 +350,69 @@ public class ShoppingController {
     }
 
     // TODO:设置定时任务，用于删除超时订单
-    @ApiOperation("订单支付")
-    @RequestMapping(value = "/pay",method = RequestMethod.POST)
-    @ResponseBody
-    public Response pay(
-            @RequestParam(required = true) @ApiParam("订单编号") Long orderNo
-    ){
-        UserSession us = UserSession.getInstance();
-        Long user_id = us.getUserId();
-        MysqlDB db = DBResource.get();
-        String fields[] = {"user_id","order_no","status","create_at"};
-        List<DataObject> order = db.clear().select().from("user_order").where("order_no",orderNo).get();
-        if(db.queryIsFalse()){
-            DBResource.returnResource(db);
-            return Response.failed(601,601,"当前订单不存在,或超时取消" );
-        }
-        if(user_id != order.get(0).getLong("user_id")){
-            DBResource.returnResource(db);
-            return Response.failed(602,602,"用户不一致");
-        }
-        if(0 != order.get(0).getInteger("status")){
-            DBResource.returnResource(db);
-            return Response.failed(603,603,"订单异常");
-        }
-        if(System.currentTimeMillis()-order.get(0).getLong("create_at") > 1800000){
-            db.clear().update("user_order").data("status",4).where("order_no",orderNo).save();
-            DBResource.returnResource(db);
-            return Response.failed(604,604,"支付时间超过30分钟,订单自动取消");
-        }
-        // TODO: 调用支付宝或者微信进行支付,要判断是否支付成功，不成功就返回
 
-        // 修改订单信息
-        Map<String,Object> data = new HashMap<>();
-        data.put("status",1);
-        data.put("update_at",System.currentTimeMillis());
-        db.clear().update("user_order").data(data).where("order_no",orderNo).save();
-        return Response.success();
-    }
+//    @ApiOperation("订单支付-支付宝")
+//    @RequestMapping(value = "/alipay",method = RequestMethod.POST)
+//    @ResponseBody
+//    public Response Alipay(
+//            @RequestParam(required = true) @ApiParam("订单编号") Long orderNo
+//    ){
+//        UserSession us = UserSession.getInstance();
+//        Long user_id = us.getUserId();
+//        MysqlDB db = DBResource.get();
+//        String fields[] = {"user_id","order_no","status","create_at"};
+//        List<DataObject> order = db.clear().select().from("user_order").where("order_no",orderNo).get();
+//        if(db.queryIsFalse()){
+//            DBResource.returnResource(db);
+//            return Response.failed(601,601,"当前订单不存在,或超时取消" );
+//        }
+//        if(user_id != order.get(0).getLong("user_id")){
+//            DBResource.returnResource(db);
+//            return Response.failed(602,602,"用户不一致");
+//        }
+//        if(0 != order.get(0).getInteger("status")){
+//            DBResource.returnResource(db);
+//            return Response.failed(603,603,"订单异常");
+//        }
+//        if(System.currentTimeMillis()-order.get(0).getLong("create_at") > 1800000){
+//            db.clear().update("user_order").data("status",4).where("order_no",orderNo).save();
+//            DBResource.returnResource(db);
+//            return Response.failed(604,604,"支付时间超过30分钟,订单自动取消");
+//        }
+//        // TODO: 调用支付宝或者微信进行支付,要判断是否支付成功，不成功就返回
+//
+//        // 修改订单信息
+//        Map<String,Object> data = new HashMap<>();
+//        data.put("status",1);
+//        data.put("update_at",System.currentTimeMillis());
+//        db.clear().update("user_order").data(data).where("order_no",orderNo).save();
+//        return Response.success();
+//    }
 
     // TODO:设置定时任务用于处理超时的已完成订单
+
+    @ApiOperation("订单支付,过渡，真正的未实现")
+    @RequestMapping(value = "/pay",method = RequestMethod.POST)
+    @ResponseBody
+    public String pay(
+            @RequestParam(required = true) @ApiParam("订单编号") Long orderNo
+    ){
+        // TODO:获取回调中的参数，进行进一步的判断
+        String trade_stauts = "TRADE_SUCCESS"; // "TRADE_FINISHED" "REFUND_SUCCESS"
+        ChangeOrderStatus change = new ChangeOrderStatus(orderNo,trade_stauts,true);
+        int result = change.changeStatus();
+        if(601 == result){
+            return "查无此单";
+        } else if(602 == result){
+            return "订单状态异常，订单处于当前状态或当前状态之上，无须修改";
+        } else if (603 == result){
+            return "订单修改异常";
+        } else if (604 == result){
+            return "支付宝回调交易信息";
+        }
+        return "success";
+    }
+
     @ApiOperation("订单完成")
     @RequestMapping(value = "/finish",method = RequestMethod.POST)
     @ResponseBody
