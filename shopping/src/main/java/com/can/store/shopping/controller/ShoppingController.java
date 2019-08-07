@@ -1,5 +1,6 @@
 package com.can.store.shopping.controller;
 
+import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import com.can.store.shopping.commons.ChangeOrderStatus;
 import com.can.store.shopping.commons.GoodsSearchBy;
 import com.can.store.shopping.commons.MyMD5Units;
@@ -67,9 +68,11 @@ public class ShoppingController {
                 }
                 if (searchId.equals(GoodsSearchBy.ISVIRTUAL.getSearchId())){
                     // 是否虚拟产品
-                    where.whereOr("is_virtual",true);
-                    where1.whereOr("goods_name","like","%"+str+"%");
-                    where.subWhere(null,where1.buildWhere());
+                    where.whereOr("is_virtual",id);
+                    if(!(str.equals("") || str == null)){
+                        where1.whereOr("goods_name","like","%"+str+"%");
+                        where.subWhere(null,where1.buildWhere());
+                    }
                 }
                 if (searchId.equals(GoodsSearchBy.BRANDID.getSearchId())){
                     // 根据品牌查询
@@ -186,7 +189,6 @@ public class ShoppingController {
     @RequestMapping(value = "/create_order",method = RequestMethod.POST)
     @ResponseBody
     public Response createOrder(
-        @RequestParam(required = false) @ApiParam("购物车id") Long id,
         @RequestParam(required = true) @ApiParam("订单收货地址") String address // 应从数据库的地址表提取，这样不安全
     ){
         MysqlDB db = DBResource.get();
@@ -249,6 +251,7 @@ public class ShoppingController {
                 DBResource.returnResource(db);
                 return Response.failed(200, 0, "商品库存不足");
             }
+            totalPrice += quantity*dataGoods.get(index_t).getDouble("price");
             num+=quantity;
 
             Map<String, Object> od=new HashMap<>();
@@ -260,7 +263,7 @@ public class ShoppingController {
             od.put("goods_price", dataGoods.get(index_t).getDouble("price"));
             od.put("provider_id",dataGoods.get(index_t).getString("provider_id"));
             insert2orderDetail.add(od);
-            totalPrice = quantity*dataGoods.get(index_t).getDouble("price");
+
         }
 
         // 订单信息
@@ -349,6 +352,37 @@ public class ShoppingController {
         return res;
     }
 
+    @ApiOperation("取消订单，未付款")
+    @RequestMapping(value = "/cancel")
+    @ResponseBody
+    public Response cancel(
+            @RequestParam(required = true) @ApiParam("订单编号") Long orderNo
+    ){
+        MysqlDB db = DBResource.get();
+        UserSession us = UserSession.getInstance();
+        Long user_id = us.getUserId();
+        List<DataObject> order = db.clear().select().from("user_order").where("order_no",orderNo).get();
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return Response.failed(601,601,"当前订单不存在");
+        }
+        if(!(user_id.equals(order.get(0).getLong("user_id")))){
+            DBResource.returnResource(db);
+            return Response.failed(602,602,"用户不一致");
+        }
+        if(!order.get(0).getInteger("status").equals(0)){
+            DBResource.returnResource(db);
+            return Response.failed(603,603,"订单取消方式错误");
+        }
+        db.clear().update("user_order").data("status",4).where("order_no",orderNo).save();
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return Response.failed(604,604,"订单状态更新异常，取消失败");
+        }
+        DBResource.returnResource(db);
+        return Response.success();
+    }
+
     // TODO:设置定时任务，用于删除超时订单
 
 //    @ApiOperation("订单支付-支付宝")
@@ -428,7 +462,7 @@ public class ShoppingController {
             DBResource.returnResource(db);
             return Response.failed(601,601,"当前订单不存在");
         }
-        if(user_id != order.get(0).getLong("user_id")){
+        if(!(user_id.equals(order.get(0).getLong("user_id")))){
             DBResource.returnResource(db);
             return Response.failed(602,602,"用户不一致");
         }
@@ -436,13 +470,13 @@ public class ShoppingController {
             DBResource.returnResource(db);
             return Response.failed(603,603,"用户未确认收货");
         }
-        if(2 != order.get(0).getInteger("status")){
+        if(!order.get(0).getInteger("status").equals(2)){
             DBResource.returnResource(db);
             return Response.failed(604,604,"订单异常");
         }
         Map<String,Object> data = new HashMap<>();
         data.put("status",3);
-        data.put("update_at",Func.toLong(new Date()));
+        data.put("update_at",System.currentTimeMillis());
         db.clear().update("user_order").data(data).where("order_no",orderNo).save();
         DBResource.returnResource(db);
         return Response.success();
@@ -462,7 +496,7 @@ public class ShoppingController {
             DBResource.returnResource(db);
             return Response.failed(601,601,"无此订单");
         }
-        if(user_id != order.get(0).getLong("user_id")){
+        if(!(user_id.equals(order.get(0).getLong("user_id")))){
             DBResource.returnResource(db);
             return Response.failed(602,602,"用户不一致");
         }

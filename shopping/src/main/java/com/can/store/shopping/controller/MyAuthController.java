@@ -168,7 +168,7 @@ public class MyAuthController {
             db.clear().insert("users_info").data(user).save();
             if(db.queryIsFalse()){
                 DBResource.returnResource(db);
-                return Response.failed(608,608,"服务异常，请重新登录");
+                return Response.failed(608,608,"服务异常，请重新注册");
             }
             DBResource.returnResource(db);
             return Response.success();

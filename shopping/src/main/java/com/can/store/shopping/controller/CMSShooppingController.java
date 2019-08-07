@@ -83,7 +83,7 @@ public class CMSShooppingController {
         List<DataObject> order = db.clear().select().from("user_order").subWhere(null,wb.buildWhere()).get();
         if(db.queryIsFalse()){
             DBResource.returnResource(db);
-            return Response.failed(601,601,"不存在该订单");
+            return Response.failed(601,601,"不存在该订单，或该订单未支付");
         }
         Map<String,Object> orderMap = new HashMap<>();
         orderMap.put("order_no",orderNo);
@@ -125,7 +125,7 @@ public class CMSShooppingController {
             DBResource.returnResource(db);
             return Response.failed(601,601,"无此订单");
         }
-        if(1 != returnOrder.get(0).getInteger("return_status")){
+        if(!returnOrder.get(0).getInteger("return_status").equals(1)){
             DBResource.returnResource(db);
             return Response.failed(602,602,"订单退货状态异常");
         }
@@ -141,6 +141,18 @@ public class CMSShooppingController {
     public Response refund(
             @RequestParam(required = true) @ApiParam("订单编号") Long orderNo
     ){
+        // 确认已经支付成功方可进行退款
+        MysqlDB db = DBResource.get();
+        List<DataObject> order = db.clear().select().from("user_order").where("order_no",orderNo).get();
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return Response.failed(601,601,"申请退款订单不存在");
+        }
+        if(order.get(0).getInteger("status").equals(0)){
+            DBResource.returnResource(db);
+            return Response.failed(602,602,"订单未支付，无须退款");
+        }
+
         // TODO: alipay.trade.refund或alipay.trade.refund.apply提交的退款请求(统一收单交易退款接口)
         // 转账是否成功：
         /*
@@ -148,6 +160,14 @@ public class CMSShooppingController {
          * 2、退款查询接口。商户可使用退款查询接口查询自已通过alipay.trade.refund提交的退款请求是否执行成功。 该接口的返回码10000，仅代表本次查询操作成功，不代表退款成功。 如果该接口返回了查询数据，则代表退款成功，如果没有查询到则代表未退款成功，可以调用退款接口进行重试。重试时请务必保证退款请求号一致。
          * 3、异步通知。异步通知返回退款信息， 不建议参考异步通知，
          * */
+        Map<String,Object> data = new HashMap<>();
+        data.put("status",4);
+        data.put("return_status",3);
+        db.clear().update("user_order").data(data).where("order_no",orderNo).save();
+        if(db.queryIsFalse()){
+            DBResource.returnResource(db);
+            return Response.failed(603,603,"退款成功,订单取消");
+        }
         return Response.success();
     }
 
@@ -167,14 +187,16 @@ public class CMSShooppingController {
         wb.subWhere(null,wb1.buildWhere());
         List<DataObject> order = db.clear().select().from("user_order").subWhere(null,wb.buildWhere()).get();
         Map<String,Object> ret = new HashMap<>();
-        if(2 == order.get(0).getInteger("status")){
+        if(order.get(0).getInteger("status").equals(2)){
            // 已发货 TODO: 通知，快递公司，用户 将货物发回发货地址
-            return "通知，快递公司，用户 将货物发回发货地址";
+            // 通知，快递公司，用户 将货物发回发货地址
+            return "2";
 
-        } else if (3 == order.get(0).getInteger("status")){
+        } else if (order.get(0).getInteger("status").equals(3)){
             // 已签收
             // TODO:通知用户返回货物
-            return "通知用户返回货物到发货地址";
+            // 通知用户返回货物到发货地址
+            return "3";
         }
         return "success";
     }
