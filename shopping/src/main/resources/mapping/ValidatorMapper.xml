@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.can.store.shopping.commons.mybat.mapper.ValidatorMapper">
+    <resultMap id="resultMap" type="com.can.store.shopping.commons.mybat.model.Validator">
+        <result column="id" property="id"/>
+        <result column="validator_code" property="validatorCode"/>
+        <result column="real_location" property="realLocation"/>
+        <result column="validator_url" property="validatorUrl"/>
+        <result column="session_id" property="sessionId"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.can.store.shopping.commons.mybat.model.Validator">
+        insert into validator (id,validator_code,real_location,validator_url,session_id)
+        values(#{id},#{validatorCode},#{realLocation},#{validatorUrl},#{sessionId})
+    </insert>
+    <select id="SelectBySessionIdAndValidatorCode" resultMap="resultMap">
+        select * from validator where validator_code = #{validatorCode} and session_id like #{sessionId}
+    </select>
+    <delete id="DeleteBySessionIdAndValidatorCode">
+        delete from validator where validator_code = #{validatorCode} and session_id like #{sessionId}
+    </delete>
+</mapper>

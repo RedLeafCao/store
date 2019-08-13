@@ -33,8 +33,18 @@ env:
   app-env: dev
   debug: true
 
+#配置Mybatis
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapping/*.xml
+  typeAliasesPackage: com.can.store.shopping.commons.mybat.model
+
+
+
 #配置特色（logger）日志
 logging:
   config: classpath:logconfig/logback-boot.xml
   file-name: ${logFileName}
   level-name:
+

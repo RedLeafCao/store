@@ -2,11 +2,13 @@ package com.can.store.shopping;
 
 import com.can.store.shopping.commons.kiss.Config;
 import com.can.store.shopping.commons.kiss.Initd;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@MapperScan("com.can.store.shopping.commons.mybat.mapper")
 //@ComponentScan(basePackages = {"com.can.store.shopping.controller"})
 public class ShoppingApplication {
 

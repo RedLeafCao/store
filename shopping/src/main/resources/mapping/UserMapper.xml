@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.can.store.shopping.commons.mybat.mapper.UserMapper">
+
+
+    <resultMap id="BaseResultMap" type="com.can.store.shopping.commons.mybat.model.User">
+        <result column="id"  property="id" />
+        <result column="user_id" property="userId" />
+        <result column="password" property="password" />
+        <result column="create_time" property="createTime"/>
+        <result column="last_time" property="lastTime"/>
+    </resultMap>
+    <sql id="column_list_record">
+        id,user_id,password,create_time,last_time
+    </sql>
+
+    <insert id="insert" parameterType="com.can.store.shopping.commons.mybat.model.User">
+        insert into users_info (id,user_id,password,create_time)
+        values(#{id},#{userId},#{password},#{createTime})
+    </insert>
+    <select id="selectByUserId" resultMap="BaseResultMap"  parameterType="java.lang.Long">
+        select * from users_info where user_id = #{userId}
+    </select>
+    <select id="selectAllUser" resultMap="BaseResultMap">
+        select
+        <include refid="column_list_record"/>
+        from users_info
+    </select>
+    <update id="updateByUserId" parameterType="com.can.store.shopping.commons.mybat.model.User">
+        update users_info
+        <set>
+            <if test="password != null">
+                password = #{password}
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+    <delete id="deleteByUserId" parameterType="java.lang.Long">
+        delete from users_info where user_id = #{userId}
+    </delete>
+
+</mapper>
