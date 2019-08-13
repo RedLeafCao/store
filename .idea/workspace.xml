@@ -3,19 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="05e36cd4-268a-4983-bacc-3f3ec26b7f86" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logPath_IS_UNDEFINED/error.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/ValidatorAutoCreate.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/ValidatorAutoCreate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBMyAuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBMyAuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/UserInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/UserInfoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/ValidatorMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/ValidatorMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/UserInfos.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/UserInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/UserInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/UserInfoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/ValidateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/ValidateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/UserInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/UserInfoServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/ValidateServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/ValidateServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/controller/MyAuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/controller/MyAuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/dto/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/dto/UserInfos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping/src/main/resources/mapping/UserInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/resources/mapping/UserInfoMapper.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -51,8 +38,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBMyAuthController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-641">
-              <caret line="122" selection-start-line="122" selection-end-line="122" />
+            <state relative-caret-position="1343">
+              <caret line="281" column="25" selection-start-line="281" selection-start-column="25" selection-end-line="281" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#login#0;class#MBMyAuthController#0" />
@@ -63,6 +50,7 @@
                 <element signature="method#selectBasic#0;class#MBMyAuthController#0" />
                 <element signature="method#alterBasic#0;class#MBMyAuthController#0" />
                 <element signature="method#logout#0;class#MBMyAuthController#0" />
+                <element signature="method#del#0;class#MBMyAuthController#0" />
               </folding>
             </state>
           </provider>
@@ -239,8 +227,8 @@
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/ValidateService.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/ValidatorMapper.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/ValidateServiceImpl.java" />
-        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBMyAuthController.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/resources/mapping/UserInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBMyAuthController.java" />
       </list>
     </option>
   </component>
@@ -604,7 +592,7 @@
       <workItem from="1565319741015" duration="3814000" />
       <workItem from="1565402607457" duration="13530000" />
       <workItem from="1565580808964" duration="5590000" />
-      <workItem from="1565662232568" duration="21844000" />
+      <workItem from="1565662232568" duration="22148000" />
     </task>
     <task id="LOCAL-00001" summary="第一次提交">
       <created>1563681073490</created>
@@ -704,11 +692,18 @@
       <option name="project" value="LOCAL" />
       <updated>1565687108742</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="实现mybatis应用 用户管理">
+      <created>1565693756101</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1565693756101</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="358646000" />
+    <option name="totallyTimeSpent" value="358950000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -721,7 +716,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="846" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.662465" visible="true" weight="0.230563" />
       <window_info id="Structure" order="1" sideWeight="0.33753502" side_tool="true" weight="0.31836462" />
@@ -736,7 +730,7 @@
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" sideWeight="0.49932975" weight="0.3277311" />
       <window_info anchor="bottom" id="Run" order="3" sideWeight="0.49865952" weight="0.46638656" />
-      <window_info active="true" anchor="bottom" id="Debug" order="4" sideWeight="0.49865952" visible="true" weight="0.3529412" />
+      <window_info anchor="bottom" id="Debug" order="4" sideWeight="0.49865952" weight="0.3529412" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32913166" />
@@ -746,7 +740,7 @@
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50067025" side_tool="true" weight="0.3277311" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" />
       <window_info anchor="bottom" id="Database Changes" order="13" />
-      <window_info anchor="bottom" id="Version Control" order="14" sideWeight="0.49865952" weight="0.32913166" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="14" sideWeight="0.49865952" visible="true" weight="0.32913166" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1314,8 +1308,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBMyAuthController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-641">
-          <caret line="122" selection-start-line="122" selection-end-line="122" />
+        <state relative-caret-position="1343">
+          <caret line="281" column="25" selection-start-line="281" selection-start-column="25" selection-end-line="281" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#login#0;class#MBMyAuthController#0" />
@@ -1326,6 +1320,7 @@
             <element signature="method#selectBasic#0;class#MBMyAuthController#0" />
             <element signature="method#alterBasic#0;class#MBMyAuthController#0" />
             <element signature="method#logout#0;class#MBMyAuthController#0" />
+            <element signature="method#del#0;class#MBMyAuthController#0" />
           </folding>
         </state>
       </provider>
