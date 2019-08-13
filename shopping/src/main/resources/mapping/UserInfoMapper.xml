@@ -12,13 +12,13 @@
             <if test="id != null">id = #{id},</if>
             <if test="userId != null">user_id = #{userId},</if>
             <if test="password != null">password = null,</if>
-            <if test="nick_name != null">nick_name = #{nickName},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
             <if test="phone != null">phone = #{phone},</if>
             <if test="icon != null">icon = #{icon},</if>
             <if test="gender != null">gender =  #{gender},</if>
             <if test="birthday != null">birthday = #{birthday},</if>
-            <if test="create_time != null">create_time = #{createTime},</if>
-            <if test="last_time != null">last_time = #{lastTime}</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lastTime != null">last_time = #{lastTime}</if>
         </set>
         where user_id = #{userId}
     </update>

@@ -13,5 +13,5 @@ import java.util.List;
 public interface ValidatorMapper {
     int insert(Validator validator);
     List<Validator> SelectBySessionIdAndValidatorCode(String sessionId, String validatorCode);
-    int DeleteBySessionIdAndValidatorCode(String sessionId,String validatoCode);
+    int DeleteBySessionIdAndValidatorCode(String sessionId,String validatorCode);
 }

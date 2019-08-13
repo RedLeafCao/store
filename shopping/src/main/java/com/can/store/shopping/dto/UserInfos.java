@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
-public class UserInfo implements Serializable {
+public class UserInfos implements Serializable {
     private Long user_id;
     private String password;
     @ApiModelProperty(value = "昵称")

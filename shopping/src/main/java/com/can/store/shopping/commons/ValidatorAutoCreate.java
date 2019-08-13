@@ -94,7 +94,7 @@ public class ValidatorAutoCreate {
         ImageIO.write(bufferedImage,"png",outputStream);
         outputStream.flush();
         outputStream.close();
-        StringBuffer sb = new StringBuffer("http://localhost:8080/v1/validate/"+codeHash+".png");
+        StringBuffer sb = new StringBuffer("http://localhost:8081/v1/validate/"+codeHash+".png");
         codeUrl = sb.toString();
     }
 

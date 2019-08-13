@@ -4,7 +4,7 @@ package com.can.store.shopping.commons.mybat.model;
  * 用户基本信息，获取修改用户基本信息，
  * 2019.08.13
  */
-public class UserInfos {
+public class UserInfo {
     private Integer id = null;
     private Long userId;
     private String password = null;

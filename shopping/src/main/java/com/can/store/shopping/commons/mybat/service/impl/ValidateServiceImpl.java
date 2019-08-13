@@ -4,9 +4,14 @@ import com.can.store.shopping.commons.mybat.mapper.ValidatorMapper;
 import com.can.store.shopping.commons.mybat.model.Validator;
 import com.can.store.shopping.commons.mybat.service.ValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 2019.08.13
+ */
+@Service(value = "validatorService")
 public class ValidateServiceImpl implements ValidateService {
     @Autowired
     private ValidatorMapper validate;
@@ -20,7 +25,7 @@ public class ValidateServiceImpl implements ValidateService {
     }
 
     @Override
-    public int DeleteBySessionIdAndValidatorCode(String sessionId, String validatoCode) {
-        return validate.DeleteBySessionIdAndValidatorCode(sessionId,validatoCode);
+    public int DeleteBySessionIdAndValidatorCode(String sessionId, String validatorCode) {
+        return validate.DeleteBySessionIdAndValidatorCode(sessionId,validatorCode);
     }
 }

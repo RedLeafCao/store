@@ -1,7 +1,6 @@
 package com.can.store.shopping.commons.mybat.controller;
 
 import com.can.store.shopping.commons.MyMD5Units;
-import com.can.store.shopping.commons.OrderNoAutoCreate;
 import com.can.store.shopping.commons.UserIDDistribute;
 import com.can.store.shopping.commons.ValidatorAutoCreate;
 import com.can.store.shopping.commons.kiss.helper.session.Session;
@@ -9,7 +8,7 @@ import com.can.store.shopping.commons.kiss.helper.session.UserSession;
 import com.can.store.shopping.commons.kizz.http.response.Response;
 import com.can.store.shopping.commons.kizz.lib.utils.Func;
 import com.can.store.shopping.commons.mybat.model.User;
-import com.can.store.shopping.commons.mybat.model.UserInfos;
+import com.can.store.shopping.commons.mybat.model.UserInfo;
 import com.can.store.shopping.commons.mybat.model.Validator;
 import com.can.store.shopping.commons.mybat.service.UserInfoService;
 import com.can.store.shopping.commons.mybat.service.UserService;
@@ -158,23 +157,21 @@ public class MBMyAuthController {
     @ResponseBody
     public Response list_all(){
         // 应该验证为管理员账号方可查询所有用户的账号密码
-        List<User> users = userService.selectAllUser(10,20);
+        List<User> users = userService.selectAllUser(1,20);
         if(users.size() == 0){
             return Response.failed(601,601,"没有用户");
         }
 
         List<Map<String,Object>> uMaps = new ArrayList<>();
-        Map<String,Object> map = new HashMap<>();
-        int i = 0;
-        for(User user : users){
-            map.put("id",user.getId());
-            map.put("user_id",user.getUserId());
-            map.put("password",user.getPassword());
-            map.put("create_time",user.getCreateTime());
-            map.put("update_time",user.getLastTime());
-            uMaps.set(i,map);
-            map.clear();
-            i++;
+
+        for(int i = 0;i<users.size();i++){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",users.get(i).getId() == 0?0:users.get(i).getId());
+            map.put("user_id",users.get(i).getUserId() == 0L?0L:users.get(i).getUserId());
+            map.put("password",users.get(i).getPassword() == null?null:users.get(i).getPassword());
+            map.put("create_time",users.get(i).getCreateTime() == 0L?0L:users.get(i).getCreateTime());
+            map.put("update_time",users.get(i).getLastTime() == 0L?0L:users.get(i).getLastTime());
+            uMaps.add(map);
         }
         return Response.success(uMaps);
     }
@@ -196,13 +193,15 @@ public class MBMyAuthController {
         if(user == null){
             return Response.failed(601,601,"当前用户异常，请重新登录");
         }
-        if(!originPassword.equals(user.getPassword())){
+        MyMD5Units md5 = MyMD5Units.getInstance(originPassword);
+        if(!md5.getMd5Code().equals(user.getPassword())){
             return Response.failed(602,602,"密码验证错误，请重新输入原密码验证");
         }
         if(!password.equals(checkPassword)){
             return Response.failed(603,603,"新密码不一致，请重新输入");
         }
-        user.setPassword(password);
+        MyMD5Units md = MyMD5Units.getInstance(password);
+        user.setPassword(md.getMd5Code());
         int raw = userService.updateUser(user);
         if(raw < 1){
             return Response.failed(604,604,"密码修改失败");
@@ -220,21 +219,21 @@ public class MBMyAuthController {
         if(user_id == 0L){
             return Response.failed(601,601,"登录状态异常，请重新登录");
         }
-        UserInfos userInfos = userInfoService.selectByUserId(user_id);
-        if(null == userInfos){
+        UserInfo userInfo = userInfoService.selectByUserId(user_id);
+        if(null == userInfo){
             return Response.failed(602,602,"当前用户不存在");
         }
         Map<String,Object> uInfo = new HashMap<>();
-        uInfo.put("id",userInfos.getId());
-        uInfo.put("user_id",userInfos.getUserId());
-        uInfo.put("password",userInfos.getPassword());
-        uInfo.put("nick_name",userInfos.getNickName());
-        uInfo.put("phone",userInfos.getPhone());
-        uInfo.put("icon",userInfos.getIcon());
-        uInfo.put("gender",userInfos.getGender());
-        uInfo.put("birthday", Func.timemillis2datetime(userInfos.getBirthday(),null));
-        uInfo.put("create_time",Func.timemillis2datetime(userInfos.getCreateTime(),null));
-        uInfo.put("last_time",Func.timemillis2datetime(userInfos.getLastTime(),null));
+        uInfo.put("id", userInfo.getId());
+        uInfo.put("user_id", userInfo.getUserId());
+        uInfo.put("password", userInfo.getPassword());
+        uInfo.put("nick_name", userInfo.getNickName());
+        uInfo.put("phone", userInfo.getPhone());
+        uInfo.put("icon", userInfo.getIcon());
+        uInfo.put("gender", userInfo.getGender());
+        uInfo.put("birthday", Func.timemillis2datetime(userInfo.getBirthday(),null));
+        uInfo.put("create_time",Func.timemillis2datetime(userInfo.getCreateTime(),null));
+        uInfo.put("last_time",Func.timemillis2datetime(userInfo.getLastTime(),null));
         return Response.success(uInfo);
     }
 
@@ -242,7 +241,7 @@ public class MBMyAuthController {
     @RequestMapping(value = "alter_basic",method = RequestMethod.POST)
     @ResponseBody
     public Response alterBasic(
-            @RequestBody UserInfos userInfo
+            @RequestBody UserInfo userInfo
     ){
         UserSession us = UserSession.getInstance();
         Long user_id = us.getUserId();
@@ -283,7 +282,7 @@ public class MBMyAuthController {
     public Response del(){
         UserSession us = UserSession.getInstance();
         Long user_id = us.getUserId();
-        if(user_id == null){
+        if(user_id == null || user_id == 0L){
             return Response.failed(601,601,"登录状态异常，请重新登录");
         }
         if(userService.selectUser(user_id) == null){

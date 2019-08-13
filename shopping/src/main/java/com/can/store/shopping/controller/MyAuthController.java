@@ -4,7 +4,6 @@ import com.can.store.shopping.commons.MyMD5Units;
 import com.can.store.shopping.commons.UserIDDistribute;
 import com.can.store.shopping.commons.ValidatorAutoCreate;
 import com.can.store.shopping.commons.kiss.db.DBResource;
-import com.can.store.shopping.commons.kiss.helper.session.AdminSession;
 import com.can.store.shopping.commons.kiss.helper.session.Session;
 import com.can.store.shopping.commons.kiss.helper.session.UserSession;
 import com.can.store.shopping.commons.kizz.db.DataObject;
@@ -13,17 +12,15 @@ import com.can.store.shopping.commons.kizz.db.mysql.WhereBuilder;
 import com.can.store.shopping.commons.kizz.http.response.Response;
 import com.can.store.shopping.commons.kizz.http.response.ResponsePaginate;
 import com.can.store.shopping.dto.UserAdmin;
-import com.can.store.shopping.dto.UserInfo;
+import com.can.store.shopping.dto.UserInfos;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import sun.security.pkcs11.Secmod;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -240,15 +237,15 @@ public class MyAuthController {
     @RequestMapping("/alter_info")
     @ResponseBody
     public Response alterInfo(
-            @RequestBody UserInfo userInfo
+            @RequestBody UserInfos userInfos
 //            @RequestParam(required = false) @ApiParam("昵称") String nick_name,
 //            @RequestParam(required = false) @ApiParam("头像") String icon,
 //            @RequestParam(required = false) @ApiParam("手机号") String phone,
 //            @RequestParam(required = false) @ApiParam("性别") Integer gender,
 //            @RequestParam(required = false) @ApiParam("生日") Integer birthday
     ){
-        if(userInfo.getNickName() == null && userInfo.getIcon() == null && userInfo.getPhone() == null
-                && userInfo.getGender() == null && userInfo.getBirthday() == null){
+        if(userInfos.getNickName() == null && userInfos.getIcon() == null && userInfos.getPhone() == null
+                && userInfos.getGender() == null && userInfos.getBirthday() == null){
             return Response.failed(601,601,"无修改项，修改无效");
         }
         UserSession us = UserSession.getInstance();
@@ -260,11 +257,11 @@ public class MyAuthController {
         String fields[] = {"user_id","nick_name","icon","phone","gender","birthday"};
         List<DataObject> origin = db.clear().fields(fields).from("users_info").where("user_id",user_id).get();
         Map<String,Object> user_info = new HashMap<>();
-        user_info.put("nick_name",userInfo.getNickName());
-        user_info.put("icon",userInfo.getIcon());
-        user_info.put("phone",null == userInfo.getPhone()?origin.get(0).getLong("phone"):userInfo.getPhone());
-        user_info.put("gender",null == userInfo.getGender()?origin.get(0).getInteger("gender"):userInfo.getGender());
-        user_info.put("birthday",null == userInfo.getBirthday()?origin.get(0).getLong("birthday"):userInfo.getBirthday());
+        user_info.put("nick_name", userInfos.getNickName());
+        user_info.put("icon", userInfos.getIcon());
+        user_info.put("phone",null == userInfos.getPhone()?origin.get(0).getLong("phone"): userInfos.getPhone());
+        user_info.put("gender",null == userInfos.getGender()?origin.get(0).getInteger("gender"): userInfos.getGender());
+        user_info.put("birthday",null == userInfos.getBirthday()?origin.get(0).getLong("birthday"): userInfos.getBirthday());
         db.clear().update("users_info").data(user_info).where("user_id",user_id).save();
         if(db.queryIsFalse()){
             DBResource.returnResource(db);
