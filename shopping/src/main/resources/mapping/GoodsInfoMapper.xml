@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.can.store.shopping.commons.mybat.mapper.GoodsInfoMapper">
+    <insert id="insertGood" parameterType="com.can.store.shopping.commons.mybat.model.GoodsInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into goods_info
+        (id,goods_name_id,sn,sn_type,category_id,category_id_1,category_id_2,brand_id,provider_id,
+        is_virtual,show2b,price,market_price,discount_price,purchase_price,integral_num,show2c,price_integral,
+        discount_integral,weight,`length`,width,height,color,created_at,updated_at,stock_num,sales_num,
+        exchange_num,status,deleted,goods_name,image_url,description)
+        values
+        (#{id},#{goodNameId},#{sn},#{snType},#{categoryId},#{categoryId1},#{categoryId2},#{brandId},#{providerId},#{isVirtual},#{show2b},#{price},
+        #{marketPrice},#{discountPrice},#{purchasePrice},#{integralNum},#{show2c},#{priceIntegral},#{discountIntegral},#{weight},#{length},#{width},#{height},
+        #{color},#{createdAt},#{updatedAt},#{stockNum},#{salesNum},#{exchangeNum},#{status},#{deleted},#{goodsName},#{imageUrl},#{description})
+    </insert>
+    <update id="updateGoodInfo" parameterType="com.can.store.shopping.commons.mybat.model.GoodsInfo">
+        update goods_info
+        <set>
+            <if test="goodsNameId != null">goods_name_id = #{goodsNameId},</if>
+            <if test="sn != null">sn = #{sn},</if>
+            <if test="snType != null">sn_type = #{snType},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="categoryId1 != null">categoyr_id_1 = #{categoryId1},</if>
+            <if test="categoryId2 != null">category_id_2 = #{categoryId2},</if>
+            <if test="brandId != null">brand_id = #{brandId},</if>
+            <if test="providerId != null">provider_id = #{providerId},</if>
+            <if test="isVirtual != null">is_virtual = #{isVirtual},</if>
+            <if test="show2b != null">show2b = #{show2b},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="marketPrice != null">market_price = #{marketPrice},</if>
+            <if test="discountPrice != null">discount_price = #{discountPrice},</if>
+            <if test="purchasePrice != null">purchase_price = #{purchasePrice},</if>
+            <if test="integralNum != null">integral_num = #{integralNum},</if>
+            <if test="show2c != null">show2c = #{show2c},</if>
+            <if test="priceIntegral != null">price_integral = #{priceIntegral},</if>
+            <if test="discountIntegral != null">discount_integral = #{discountIntegral},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="length != null">`length` = #{length},</if>
+            <if test="width != null">width = #{width},</if>
+            <if test="height != null">height = #{height},</if>
+            <if test="color != null">color = #{color},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="stockNum != null">stock_num = #{stockNum},</if>
+            <if test="salesNum != null">sales_num = #{salesNum},</if>
+            <if test="exchangeNum != null">exchange_num = #{exchangeNum},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+            <if test="goodsName != null">goods_name = #{goodsName},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="description != null">description = #{description}</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteGood" parameterType="java.lang.Integer">
+        delete from goods_info
+        where id = #{id}
+    </delete>
+    <select id="selectAll" resultType="com.can.store.shopping.commons.mybat.model.GoodsInfo">
+        select * from goods_info
+    </select>
+    <select id="selectOne" parameterType="java.lang.Integer" resultType="com.can.store.shopping.commons.mybat.model.GoodsInfo">
+        select * from goods_info
+        where id = #{id}
+    </select>
+    <select id="selectByGoodName" parameterType="java.lang.String" resultType="com.can.store.shopping.commons.mybat.model.GoodsInfo">
+        select * from goods_info
+        where goods_name like #{goodsName}
+    </select>
+    <select id="selectByProviderId" parameterType="java.lang.String" resultType="com.can.store.shopping.commons.mybat.model.GoodsInfo">
+        select * from goods_info
+        where
+        provider_id in
+            (select id from goods_provider
+            where name like #{str})
+    </select>
+    <select id="selectByCategoryId" parameterType="java.lang.String" resultType="com.can.store.shopping.commons.mybat.model.GoodsInfo">
+        select * from goods_info
+        where
+        category_id in
+            (select id from goods_category
+            where name like #{str} and level = 0)
+    </select>
+    <select id="selectByCategoryId1" parameterType="java.lang.String" resultType="com.can.store.shopping.commons.mybat.model.GoodsInfo">
+        select * from goods_info
+        where
+        category_id_1 in
+            (select id from goods_category
+            where name like #{str} and level = 1)
+    </select>
+    <select id="selectByCategoryId2" parameterType="java.lang.String" resultType="com.can.store.shopping.commons.mybat.model.GoodsInfo">
+        select * from goods_info
+        where
+        category_id_2 in
+            (select id from goods_category
+            where name like #{str} and level = 2)
+    </select>
+    <select id="selectByIsVirtual"  resultType="com.can.store.shopping.commons.mybat.model.GoodsInfo">
+        select * from goods_info
+        where is_virtual = #{isVirtual} and goods_name like #{str}
+    </select>
+    <select id="selectByBrandId" parameterType="java.lang.String" resultType="com.can.store.shopping.commons.mybat.model.GoodsInfo">
+        select * from goods_info
+        where
+        brand_id in
+            (select id from goods_brand
+            where name like #{str})
+    </select>
+</mapper>

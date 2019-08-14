@@ -8,7 +8,7 @@
         <result column="validator_url" property="validatorUrl"/>
         <result column="session_id" property="sessionId"/>
     </resultMap>
-    <insert id="insert" parameterType="com.can.store.shopping.commons.mybat.model.Validator">
+    <insert id="insert" parameterType="com.can.store.shopping.commons.mybat.model.Validator" useGeneratedKeys="true" keyProperty="id">
         insert into validator (id,validator_code,real_location,validator_url,session_id)
         values(#{id},#{validatorCode},#{realLocation},#{validatorUrl},#{sessionId})
     </insert>

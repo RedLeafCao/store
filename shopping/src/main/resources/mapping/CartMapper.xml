@@ -21,7 +21,7 @@
         update user_cart set quantity = #{quantity}
         where user_id = #{userId} and goods_id = #{goodId}
     </update>
-    <insert id="insertGood" parameterType="com.can.store.shopping.commons.mybat.model.Cart">
+    <insert id="insertGood" parameterType="com.can.store.shopping.commons.mybat.model.Cart" useGeneratedKeys="true" keyProperty="id">
         insert user_cart (id,user_id,goods_id,quantity,is_chosen)
         values(#{id},#{userId},#{goodId},#{quantity},#{is_chosen})
     </insert>

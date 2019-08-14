@@ -14,7 +14,7 @@
         id,user_id,password,create_time,last_time
     </sql>
 
-    <insert id="insert" parameterType="com.can.store.shopping.commons.mybat.model.User">
+    <insert id="insert" parameterType="com.can.store.shopping.commons.mybat.model.User" useGeneratedKeys="true" keyProperty="id">
         insert into users_info (id,user_id,password,create_time)
         values(#{id},#{userId},#{password},#{createTime})
     </insert>

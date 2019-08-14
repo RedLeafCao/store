@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05e36cd4-268a-4983-bacc-3f3ec26b7f86" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBShoppingController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/CartMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/Cart.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/CartService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/CartServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping/src/main/resources/mapping/CartMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/GoodsInfoMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/GoodsInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/GoodsInfoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/GoodsInfoServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping/src/main/resources/mapping/GoodsInfoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping/src/main/resources/mapping/CartMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/resources/mapping/CartMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping/src/main/resources/mapping/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/resources/mapping/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping/src/main/resources/mapping/ValidatorMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/src/main/resources/mapping/ValidatorMapper.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -41,35 +43,67 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/GoodsInfoMapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="36" column="35" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/GoodsInfoService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="24" column="38" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/GoodsInfoServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="361">
+              <caret line="45" column="56" selection-start-line="45" selection-start-column="56" selection-end-line="45" selection-end-column="56" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#657#658#0" expanded="true" />
+                <element signature="e#717#718#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/GoodsInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2981">
+              <caret line="349" column="18" selection-start-line="349" selection-start-column="18" selection-end-line="349" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBShoppingController.java">
+        <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/GoodsInfoMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="110" column="55" lean-forward="true" selection-start-line="110" selection-start-column="55" selection-end-line="110" selection-end-column="55" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="435">
+              <caret line="105" column="34" selection-start-line="105" selection-start-column="34" selection-end-line="105" selection-end-column="34" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/Cart.java">
+        <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/UserInfoMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="23" lean-forward="true" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/CartService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="19">
+              <caret line="1" column="107" selection-end-line="1" selection-end-column="107" />
             </state>
           </provider>
         </entry>
@@ -77,81 +111,28 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/CartMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="551">
-              <caret line="29" column="57" selection-start-line="29" selection-start-column="57" selection-end-line="29" selection-end-column="57" />
+            <state relative-caret-position="437">
+              <caret line="23" column="131" selection-start-line="23" selection-start-column="131" selection-end-line="23" selection-end-column="131" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/CartMapper.java">
+        <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/UserMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="27" column="18" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="18" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="19">
+              <caret line="16" column="127" selection-start-line="16" selection-start-column="127" selection-end-line="16" selection-end-column="127" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/UserInfoServiceImpl.java">
+        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/controller/ShoppingController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
+            <state relative-caret-position="3299">
+              <caret line="221" column="35" selection-start-line="221" selection-start-column="31" selection-end-line="221" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/ValidateServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="28" column="77" selection-start-line="28" selection-start-column="77" selection-end-line="28" selection-end-column="77" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/UserServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="15" selection-start-line="15" selection-end-line="15" selection-end-column="31" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/CartServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="608">
-              <caret line="41" column="47" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#446#447#0" expanded="true" />
-                <element signature="e#473#474#0" expanded="true" />
-                <element signature="e#544#545#0" expanded="true" />
-                <element signature="e#571#572#0" expanded="true" />
-                <element signature="e#627#628#0" expanded="true" />
-                <element signature="e#654#655#0" expanded="true" />
-                <element signature="e#716#717#0" expanded="true" />
-                <element signature="e#740#741#0" expanded="true" />
-                <element signature="e#1103#1104#0" expanded="true" />
-                <element signature="e#1153#1154#0" expanded="true" />
-                <element signature="e#876#877#0" expanded="true" />
-                <element signature="e#900#901#0" expanded="true" />
-                <element signature="e#954#955#0" expanded="true" />
-                <element signature="e#978#979#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -185,11 +166,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/helper/session/AdminSession.java" />
-        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/helper/session/UserSession.java" />
-        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/kiss/helper/session/Session.java" />
-        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/UserIDDistribute.java" />
-        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/MyMD5Units.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/dto/UserInfo.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/dto/UserAdmin.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/dto/MerchantOrderDelivery.java" />
@@ -216,9 +192,7 @@
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/UserMapper.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/User.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/resources/application.yml" />
-        <option value="$PROJECT_DIR$/shopping/src/main/resources/mapping/ValidatorMapper.xml" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/Validator.java" />
-        <option value="$PROJECT_DIR$/shopping/src/main/resources/mapping/UserMapper.xml" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/UserInfoService.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/UserInfos.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/UserInfoMapper.java" />
@@ -234,8 +208,15 @@
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/CartService.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/CartServiceImpl.java" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/Cart.java" />
-        <option value="$PROJECT_DIR$/shopping/src/main/resources/mapping/CartMapper.xml" />
         <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBShoppingController.java" />
+        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/GoodsInfo.java" />
+        <option value="$PROJECT_DIR$/shopping/src/main/resources/mapping/CartMapper.xml" />
+        <option value="$PROJECT_DIR$/shopping/src/main/resources/mapping/UserMapper.xml" />
+        <option value="$PROJECT_DIR$/shopping/src/main/resources/mapping/ValidatorMapper.xml" />
+        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/GoodsInfoMapper.java" />
+        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/GoodsInfoService.java" />
+        <option value="$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/GoodsInfoServiceImpl.java" />
+        <option value="$PROJECT_DIR$/shopping/src/main/resources/mapping/GoodsInfoMapper.xml" />
       </list>
     </option>
   </component>
@@ -268,7 +249,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -469,6 +449,19 @@
               <item name="can" type="462c0819:PsiDirectoryNode" />
               <item name="store" type="462c0819:PsiDirectoryNode" />
               <item name="shopping" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="store" type="b2602c69:ProjectViewProjectNode" />
+              <item name="store" type="462c0819:PsiDirectoryNode" />
+              <item name="shopping" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="can" type="462c0819:PsiDirectoryNode" />
+              <item name="store" type="462c0819:PsiDirectoryNode" />
+              <item name="shopping" type="462c0819:PsiDirectoryNode" />
               <item name="dto" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -514,6 +507,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -600,7 +594,8 @@
       <workItem from="1565402607457" duration="13530000" />
       <workItem from="1565580808964" duration="5590000" />
       <workItem from="1565662232568" duration="22148000" />
-      <workItem from="1565746194968" duration="8918000" />
+      <workItem from="1565746194968" duration="21100000" />
+      <workItem from="1565789104802" duration="2897000" />
     </task>
     <task id="LOCAL-00001" summary="第一次提交">
       <created>1563681073490</created>
@@ -707,11 +702,18 @@
       <option name="project" value="LOCAL" />
       <updated>1565693756101</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="实现mybatis应用 购物车实现">
+      <created>1565758420232</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1565758420232</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="367868000" />
+    <option name="totallyTimeSpent" value="382947000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -726,7 +728,7 @@
     <frame x="-7" y="-7" width="1550" height="846" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.662465" visible="true" weight="0.23391421" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.662465" visible="true" weight="0.28753352" />
       <window_info id="Structure" order="1" sideWeight="0.33753502" side_tool="true" weight="0.31836462" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -822,7 +824,8 @@
     <MESSAGE value="模拟实现支付，退款流程,未具体实现" />
     <MESSAGE value="测试，修改bug,数值装箱比较用equals" />
     <MESSAGE value="实现mybatis应用 用户管理" />
-    <option name="LAST_COMMIT_MESSAGE" value="实现mybatis应用 用户管理" />
+    <MESSAGE value="实现mybatis应用 购物车实现" />
+    <option name="LAST_COMMIT_MESSAGE" value="实现mybatis应用 购物车实现" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -832,37 +835,11 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_141/src.zip!/java/util/Map.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="211" column="6" selection-start-line="211" selection-start-column="6" selection-end-line="211" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/Learning">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/store.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/mvnw.cmd">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/mvnw">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/shopping/HELP.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor />
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/controller/CMSShooppingController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="57" selection-start-line="4" selection-start-column="57" selection-end-line="4" selection-end-column="57" />
         </state>
       </provider>
     </entry>
@@ -961,16 +938,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/controller/ShoppingController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="100" column="54" selection-start-line="100" selection-start-column="54" selection-end-line="100" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/UserInfoMapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -1063,13 +1030,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/ValidatorMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="18" column="101" selection-start-line="18" selection-start-column="101" selection-end-line="18" selection-end-column="101" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/Validator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -1145,30 +1105,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/UserInfoMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="107" lean-forward="true" selection-end-line="1" selection-end-column="107" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/UserMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/CartMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="27" column="18" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBMyAuthController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1499">
@@ -1195,13 +1131,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/CartMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="29" column="57" selection-start-line="29" selection-start-column="57" selection-end-line="29" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/CartService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
@@ -1212,13 +1141,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBShoppingController.java">
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/controller/CMSShooppingController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="110" column="55" lean-forward="true" selection-start-line="110" selection-start-column="55" selection-end-line="110" selection-end-column="55" />
+        <state relative-caret-position="200">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/CartMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="27" column="18" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/controller/MBShoppingController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" column="34" lean-forward="true" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/ValidatorMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="9" column="16" lean-forward="true" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/CartMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" column="131" selection-start-line="23" selection-start-column="131" selection-end-line="23" selection-end-column="131" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/UserMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="16" column="127" selection-start-line="16" selection-start-column="127" selection-end-line="16" selection-end-column="127" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/UserInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="107" selection-end-line="1" selection-end-column="107" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/impl/GoodsInfoServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="45" column="56" selection-start-line="45" selection-start-column="56" selection-end-line="45" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#657#658#0" expanded="true" />
+            <element signature="e#717#718#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/model/GoodsInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2981">
+          <caret line="349" column="18" selection-start-line="349" selection-start-column="18" selection-end-line="349" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/service/GoodsInfoService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="24" column="38" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/controller/ShoppingController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3299">
+          <caret line="221" column="35" selection-start-line="221" selection-start-column="31" selection-end-line="221" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/java/com/can/store/shopping/commons/mybat/mapper/GoodsInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="36" column="35" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/src/main/resources/mapping/GoodsInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="105" column="34" selection-start-line="105" selection-start-column="34" selection-end-line="105" selection-end-column="34" />
         </state>
       </provider>
     </entry>
