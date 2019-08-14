@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.can.store.shopping.commons.mybat.mapper.CartMapper">
+    <select id="selectCartByUserId" parameterType="java.lang.Long" resultType="com.can.store.shopping.commons.mybat.model.Cart">
+        select * from user_cart
+        where user_id = #{userId}
+    </select>
+    <select id="selectCartIsChosen" parameterType="java.lang.Long" resultType="com.can.store.shopping.commons.mybat.model.Cart">
+        select * from user_cart
+        where user_id = #{userId} and is_chosen = 1
+    </select>
+    <select id="selectGoods" parameterType="com.can.store.shopping.commons.mybat.model.Cart" resultType="com.can.store.shopping.commons.mybat.model.Cart">
+        select * from user_id
+        where user_id = #{userId} and goods_id = #{goodId}
+    </select>
+    <update id="updateGoodIsChosen" parameterType="com.can.store.shopping.commons.mybat.model.Cart" >
+        update user_cart set is_chosen = 1
+        where user_id = #{userId} and goods_id = #{goodId}
+    </update>
+    <update id="updateQuantity" parameterType="com.can.store.shopping.commons.mybat.model.Cart">
+        update user_cart set quantity = #{quantity}
+        where user_id = #{userId} and goods_id = #{goodId}
+    </update>
+    <insert id="insertGood" parameterType="com.can.store.shopping.commons.mybat.model.Cart">
+        insert user_cart (id,user_id,goods_id,quantity,is_chosen)
+        values(#{id},#{userId},#{goodId},#{quantity},#{is_chosen})
+    </insert>
+    <delete id="deleteGood" parameterType="com.can.store.shopping.commons.mybat.model.Cart">
+        delete from user_cart
+        where user_id = #{userId} and goods_id = #{goodId}
+    </delete>
+</mapper>
